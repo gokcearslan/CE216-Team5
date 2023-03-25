@@ -30,7 +30,7 @@ public class Controller implements Initializable {
 
 
     public void search(){
-        String filePath = "src/main/resources/deneme.txt";
+        String filePath = getClass().getResource("/deneme.txt").getPath();
         Language language= new Language();
         System.out.println("search");
     //file reader sourcelang,
@@ -50,7 +50,7 @@ public class Controller implements Initializable {
 
 }
 public void search2(){
-    String filePath = "src/main/resources/deneme.txt";
+    String filePath = getClass().getResource("/deneme.txt").getPath();
     Language language= new Language();
     System.out.println("search");
     //file reader sourcelang,

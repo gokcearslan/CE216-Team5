@@ -1,6 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -45,12 +44,12 @@ public class Language {
         this.trgLang = trgLang;
     }
 
-    public void loadWordsFromFile(String filename) {
-
+    public void loadWordsFromFile(String filePath) {
         System.out.println("loadWordsFromFile");
-        String filePath = "src/main/resources/deneme.txt";
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try {
+            InputStream is = getClass().getResourceAsStream("/deneme.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -59,10 +58,8 @@ public class Language {
             String text = sb.toString();
 
             // Split the text into words and translations
-            Pattern pattern = Pattern.compile("^(\\w+)\\s+/[^/]+/\n((\\d+\\.\\s+.+?\n)+)", Pattern.MULTILINE| Pattern.DOTALL);
+            Pattern pattern = Pattern.compile("^(\\w+)\\s+/[^/]+/\n((\\d+\\.\\s+.+?\n)+)", Pattern.MULTILINE | Pattern.DOTALL);
             Matcher matcher = pattern.matcher(text);
-
-
 
             // Upload the words and their translations to a HashMap
             hashMap = new HashMap<>();
@@ -75,12 +72,12 @@ public class Language {
                 System.out.println(word);
                 System.out.println(translation);
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
     public void loadsFromFilefra_tr(String filename) {
         String filePath = "src/main/resources/deneme.txt";
         System.out.println("loadWordsFromFile");
