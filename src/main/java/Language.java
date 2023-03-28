@@ -79,40 +79,7 @@ public class Language {
 
 
     public void loadsFromFilefra_tr(String filename) {
-        String filePath = "src/main/resources/deneme.txt";
-        System.out.println("loadWordsFromFile");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            String text = sb.toString();
-
-            // Split the text into words and translations
-            Pattern pattern = Pattern.compile("^(\\w+)\\s+/[^/]+/\n((\\d+\\.\\s+.+?\n)+)", Pattern.MULTILINE| Pattern.DOTALL);
-            Matcher matcher = pattern.matcher(text);
-
-
-
-            // Upload the words and their translations to a HashMap
-            hashMap = new HashMap<>();
-            setHashMap(hashMap);
-
-            while (matcher.find()) {
-                String word = matcher.group(1).trim();
-                String translation = matcher.group(2).trim();
-                hashMap.put(word, translation);
-                System.out.println(word);
-                System.out.println(translation);
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-
 
 }

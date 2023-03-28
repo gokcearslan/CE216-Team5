@@ -29,47 +29,26 @@ public class Controller implements Initializable {
 
 
 
-    public void search(){
+    public void search() {
         String filePath = getClass().getResource("/deneme.txt").getPath();
-        Language language= new Language();
+        Language language = new Language();
         System.out.println("search");
-    //file reader sourcelang,
-    //  hashMap.put(sourceLang.getText(),);
-    //trgtLang cevabı read file methodundan gelecek
-    //sourceLang.getText()
-    //read file and find trgtLang value
-    language.loadWordsFromFile(filePath);
+        //file reader sourcelang,
+        //  hashMap.put(sourceLang.getText(),);
+        //trgtLang cevabı read file methodundan gelecek
+        //sourceLang.getText()
+        //read file and find trgtLang value
+        language.loadWordsFromFile(filePath);
 
-//value aslında target language
-
-    String value = language.getHashMap().get(sourceLang.getText());
-
-    ObservableList<Language> list = FXCollections.observableArrayList(new Language(value));
-    table.setItems(list);
-
-
-}
-public void search2(){
-    String filePath = getClass().getResource("/deneme.txt").getPath();
-    Language language= new Language();
-    System.out.println("search");
-    //file reader sourcelang,
-    //  hashMap.put(sourceLang.getText(),);
-//trgtLang cevabı read file methodundan gelecek
-    //sourceLang.getText()
-    //read file and find trgtLang value
-    language.loadsFromFilefra_tr(filePath);
-
-//value aslında target language
+        //value aslında target language
 
         String value = language.getHashMap().get(sourceLang.getText());
 
         ObservableList<Language> list = FXCollections.observableArrayList(new Language(value));
         table.setItems(list);
 
-}
 
-
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
