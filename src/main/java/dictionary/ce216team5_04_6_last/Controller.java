@@ -48,8 +48,6 @@ public class Controller implements Initializable {
             }
         }
 
-        // Set the column name to the target language
-        setColumnName(targetLang);
 
         if (values != null && !values.isEmpty()) {
             ObservableList<Language> list = FXCollections.observableArrayList();
@@ -62,15 +60,16 @@ public class Controller implements Initializable {
         }
     }
 
-    // Method to set the column name to the target language
-    private void setColumnName(String targetLang) {
-        Translation.setText(targetLang);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
         SourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish");
         TargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish");
+
+
+
+
     }
 }
