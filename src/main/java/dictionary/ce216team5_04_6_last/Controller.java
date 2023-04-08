@@ -3,10 +3,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.File;
 import java.net.URL;
@@ -30,9 +27,52 @@ public class Controller implements Initializable {
         Language language = new Language();
         String sourceLang = (String) SourceCB.getValue();
         String targetLang = (String) TargetCB.getValue();
-        String srcSource = "src/resources";
+        if (sourceLang.equals("Source Language") || targetLang.equals("Target Language")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please select a source and target language");
+            alert.showAndWait();
+            return;
+        }
+        else if (sourceLang.equals(targetLang)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please select different source and target languages");
+            alert.showAndWait();
+            return;
+        }
+        else if (searchBox.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+        //If they add searchBox a number add alert
+        else if (searchBox.getText().matches(".*\\d.*")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+        else if (searchBox.getText().matches(".*\\W.*")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+        else if (searchBox.getText().matches(".*\\s.*")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+        String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
         String srcTxt = ".txt";
-        String filePath= srcSource +sourceLang+targetLang+srcTxt;
+        String filePath= srcSource + sourceLang + targetLang + srcTxt;
 
         File file = new File(filePath);
 
