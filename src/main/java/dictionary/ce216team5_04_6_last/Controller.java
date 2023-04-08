@@ -1,5 +1,4 @@
 package dictionary.ce216team5_04_6_last;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,6 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.io.File;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -27,50 +27,91 @@ public class Controller implements Initializable {
     private ChoiceBox TargetCB=new ChoiceBox<>();
 
     public void search() {
-        String sourceLang= (String) SourceCB.getValue();
-        String targetLang= (String) TargetCB.getValue();
-        String srcSource = "src/main/resources/dictionary/ce216team5_04_6_last/";
+        Language language = new Language();
+        String sourceLang = (String) SourceCB.getValue();
+        String targetLang = (String) TargetCB.getValue();
+        String srcSource = "src/resources";
         String srcTxt = ".txt";
         String filePath= srcSource +sourceLang+targetLang+srcTxt;
 
-        Language language = new Language();
-        System.out.println("search");
+        File file = new File(filePath);
 
-        language.loadWordsFromFile(filePath,StandardCharsets.UTF_8);
+        if (!file.exists()) {
+            String srcTxt2 = "English.txt";
+            String filePath2= srcSource +sourceLang+srcTxt2;
 
-
-        List<String> values = null;
-
-        for (String word : language.getHashMap().keySet()) {
-            if (word.equalsIgnoreCase(searchBox.getText())) {
-                values = language.getHashMap().get(word);
-                break;
+            language.loadWordsFromFile(filePath2, StandardCharsets.UTF_8);
+            List<String> values2 = null;
+            for (String word : language.getHashMap().keySet()) {
+                if (word.equalsIgnoreCase(searchBox.getText())) {
+                    values2 = language.getHashMap().get(word);
+                    break;
+                }
             }
-        }
+            String newKey = values2.get(0);
+            String srcTxt3 = "English";
 
-        // Set the column name to the target language
-        setColumnName(targetLang);
-
-        if (values != null && !values.isEmpty()) {
-            ObservableList<Language> list = FXCollections.observableArrayList();
-            for (String value : values) {
-                list.add(new Language(value));
+            String filePath3= srcSource +srcTxt3+targetLang+srcTxt;
+            //String filePath3 = "src/resources/" + "English" + targetLang + ".txt";
+            language.loadWordsFromFile(filePath3, StandardCharsets.UTF_8);
+            List<String> values3 = null;
+            for (String word : language.getHashMap().keySet()) {
+                if (word.equalsIgnoreCase(newKey)) {
+                    values3 = language.getHashMap().get(word);
+                    break;
+                }
             }
-            sourceLangTable.setItems(list);
+            setColumnName(targetLang);
+
+            if (values3 != null && !values3.isEmpty()) {
+                ObservableList<Language> list = FXCollections.observableArrayList();
+                for (String value : values3) {
+                    list.add(new Language(value));
+                }
+                sourceLangTable.setItems(list);
+            } else {
+                sourceLangTable.getItems().clear();
+            }
+
         } else {
-            sourceLangTable.getItems().clear();
+
+            System.out.println("search");
+
+            language.loadWordsFromFile(filePath, StandardCharsets.UTF_8);
+
+
+            List<String> values = null;
+
+            for (String word : language.getHashMap().keySet()) {
+                if (word.equalsIgnoreCase(searchBox.getText())) {
+                    values = language.getHashMap().get(word);
+                    break;
+                }
+            }
+
+            // Set the column name to the target language
+            setColumnName(targetLang);
+
+            if (values != null && !values.isEmpty()) {
+                ObservableList<Language> list = FXCollections.observableArrayList();
+                for (String value : values) {
+                    list.add(new Language(value));
+                }
+                sourceLangTable.setItems(list);
+            } else {
+                sourceLangTable.getItems().clear();
+            }
         }
     }
-
     // Method to set the column name to the target language
-    private void setColumnName(String targetLang) {
+    private void setColumnName (String targetLang){
         Translation.setText(targetLang);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
-        SourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish");
-        TargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish");
+        SourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        TargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
     }
 }
