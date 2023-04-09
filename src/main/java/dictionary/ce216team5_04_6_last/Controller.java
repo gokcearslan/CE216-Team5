@@ -27,7 +27,14 @@ public class Controller implements Initializable {
         Language language = new Language();
         String sourceLang = (String) SourceCB.getValue();
         String targetLang = (String) TargetCB.getValue();
-        if (sourceLang.equals("Source Language") || targetLang.equals("Target Language")) {
+        if (sourceLang == null || targetLang == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please select source and target languages");
+            alert.showAndWait();
+            return;
+        }
+        else if (sourceLang.equals("Source") || targetLang.equals("Target")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please select a source and target language");
@@ -42,28 +49,6 @@ public class Controller implements Initializable {
             return;
         }
         else if (searchBox.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Please enter a word to search");
-            alert.showAndWait();
-            return;
-        }
-        //If they add searchBox a number add alert
-        else if (searchBox.getText().matches(".*\\d.*")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Please enter a word to search");
-            alert.showAndWait();
-            return;
-        }
-        else if (searchBox.getText().matches(".*\\W.*")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Please enter a word to search");
-            alert.showAndWait();
-            return;
-        }
-        else if (searchBox.getText().matches(".*\\s.*")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please enter a word to search");
@@ -153,5 +138,8 @@ public class Controller implements Initializable {
         Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
         SourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
         TargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        SourceCB.setValue("Source");
+        TargetCB.setValue("Target");
+
     }
 }
