@@ -54,10 +54,10 @@ public class Language {
         this.trgLang = trgLang;
     }
 
-    public void loadWordsFromFile(String filePath, Charset charset) {
-        System.out.println("loadWordsFromFile");
+    public void loadWordsFromFile(InputStream filePath, Charset charset) {
+       // System.out.println("loadWordsFromFile");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath,charset))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePath,charset))) {
 
             hashMap = new HashMap<>();
 
@@ -99,9 +99,11 @@ public class Language {
                 hashMap.put(currentWord, translations);
             }
 
-            for (Map.Entry<String, List<String>> entry : hashMap.entrySet()) {
-                System.out.println(entry.getKey() + " -> " + entry.getValue());
+           /* for (Map.Entry<String, List<String>> entry : hashMap.entrySet()) {
+                //System.out.println(entry.getKey() + " -> " + entry.getValue());
             }
+
+            */
         } catch (IOException e) {
             e.printStackTrace();
         }

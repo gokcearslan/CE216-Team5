@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -27,14 +28,7 @@ public class Controller implements Initializable {
         Language language = new Language();
         String sourceLang = (String) SourceCB.getValue();
         String targetLang = (String) TargetCB.getValue();
-        if (sourceLang == null || targetLang == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Please select source and target languages");
-            alert.showAndWait();
-            return;
-        }
-        else if (sourceLang.equals("Source") || targetLang.equals("Target")) {
+        if (sourceLang.equals("Source Language") || targetLang.equals("Target Language")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please select a source and target language");
@@ -55,17 +49,41 @@ public class Controller implements Initializable {
             alert.showAndWait();
             return;
         }
-        String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
+        //If they add searchBox a number add alert
+        else if (searchBox.getText().matches(".*\\d.*")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+        else if (searchBox.getText().matches(".*\\W.*")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+        else if (searchBox.getText().matches(".*\\s.*")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please enter a word to search");
+            alert.showAndWait();
+            return;
+        }
+      //  String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
         String srcTxt = ".txt";
-        String filePath= srcSource + sourceLang + targetLang + srcTxt;
+        String filePath=sourceLang + targetLang + srcTxt;
+        InputStream absolutepath =getClass().getResourceAsStream(filePath);
 
-        File file = new File(filePath);
+        //File file = new File(filePath);
 
-        if (!file.exists()) {
+        if (absolutepath==null) {
             String srcTxt2 = "English.txt";
-            String filePath2= srcSource +sourceLang+srcTxt2;
+            String filePath2=sourceLang+srcTxt2;
+            InputStream absolutepath2 =getClass().getResourceAsStream(filePath2);
 
-            language.loadWordsFromFile(filePath2, StandardCharsets.UTF_8);
+            language.loadWordsFromFile(absolutepath2, StandardCharsets.UTF_8);
             List<String> values2 = null;
             for (String word : language.getHashMap().keySet()) {
                 if (word.equalsIgnoreCase(searchBox.getText())) {
@@ -76,9 +94,10 @@ public class Controller implements Initializable {
             String newKey = values2.get(0);
             String srcTxt3 = "English";
 
-            String filePath3= srcSource +srcTxt3+targetLang+srcTxt;
+            String filePath3=srcTxt3+targetLang+srcTxt;
+            InputStream absolutepath3=getClass().getResourceAsStream(filePath3);
             //String filePath3 = "src/resources/" + "English" + targetLang + ".txt";
-            language.loadWordsFromFile(filePath3, StandardCharsets.UTF_8);
+            language.loadWordsFromFile(absolutepath3, StandardCharsets.UTF_8);
             List<String> values3 = null;
             for (String word : language.getHashMap().keySet()) {
                 if (word.equalsIgnoreCase(newKey)) {
@@ -100,9 +119,9 @@ public class Controller implements Initializable {
 
         } else {
 
-            System.out.println("search");
+         //   System.out.println("search");
 
-            language.loadWordsFromFile(filePath, StandardCharsets.UTF_8);
+            language.loadWordsFromFile(absolutepath, StandardCharsets.UTF_8);
 
 
             List<String> values = null;
