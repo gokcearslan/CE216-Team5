@@ -4,66 +4,105 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseMoved="#setBox" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseMoved="#setBox" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
     <children>
-        <VBox prefHeight="251.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;">
-            <children>
-                <ChoiceBox fx:id="SourceCB" onMouseClicked="#setSourceBoxes" prefHeight="28.0" prefWidth="158.0" translateX="75.0" translateY="84.0" VBox.vgrow="ALWAYS">
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                </ChoiceBox>
-                <ChoiceBox fx:id="TargetCB" prefHeight="28.0" prefWidth="157.0" translateX="496.0" translateY="53.0" VBox.vgrow="ALWAYS" />
-                <TextField fx:id="searchBox" prefHeight="67.0" prefWidth="342.0" translateY="75.0">
-                    <VBox.margin>
-                        <Insets left="200.0" right="200.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="3.0" />
-                    </padding>
-                </TextField>
-                <Button mnemonicParsing="false" onAction="#search2" prefHeight="25.0" prefWidth="111.0" text="Search" translateX="315.0" translateY="90.0" />
-            </children>
-        </VBox>
-        <VBox alignment="CENTER" layoutX="-14.0" layoutY="261.0" prefHeight="314.0" prefWidth="670.0">
-            <children>
-                <TableView fx:id="sourceLangTable" prefHeight="326.0" prefWidth="669.0" translateX="50.0" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
-                    </columns>
-                </TableView>
-            </children>
-        </VBox>
-        <Label prefHeight="66.0" prefWidth="169.0" text="DICTIONARY" translateX="300.0">
-            <font>
-                <Font name="Bookshelf Symbol 7" size="24.0" />
-            </font>
-            <textFill>
-                <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                    <stops>
-                        <Stop>
-                            <color>
-                                <Color />
-                            </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                            <color>
-                                <Color red="0.2199999988079071" green="0.04179999977350235" blue="0.04179999977350235" />
-                            </color>
-                        </Stop>
-                    </stops>
-                </RadialGradient>
-            </textFill>
-        </Label>
+      <TabPane fx:id="TabPane" layoutY="-1.0" prefHeight="597.0" prefWidth="751.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="searchPane" text="search">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="467.0" prefWidth="613.0">
+                     <children>
+                            <ChoiceBox fx:id="SourceCB" layoutX="88.0" layoutY="83.0" onMouseClicked="#setSourceBoxes" prefHeight="28.0" prefWidth="158.0" />
+                            <ChoiceBox fx:id="TargetCB" layoutX="480.0" layoutY="76.0" prefHeight="28.0" prefWidth="157.0" />
+                            <TextField fx:id="searchBox" layoutX="148.0" layoutY="173.0" prefHeight="89.0" prefWidth="342.0">
+                                <padding>
+                                    <Insets left="3.0" />
+                                </padding>
+                            </TextField>
+                            <Button layoutX="517.0" layoutY="205.0" mnemonicParsing="false" onAction="#search2" prefHeight="25.0" prefWidth="111.0" text="Search" />
+                            <TableView fx:id="sourceLangTable" layoutX="35.0" layoutY="284.0" prefHeight="148.0" prefWidth="636.0">
+                                <columns>
+                                    <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
+                                </columns>
+                            </TableView>
+                          <Label layoutX="268.0" layoutY="14.0" prefHeight="66.0" prefWidth="169.0" text="DICTIONARY">
+                              <font>
+                                  <Font name="Bookshelf Symbol 7" size="24.0" />
+                              </font>
+                              <textFill>
+                                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                      <stops>
+                                          <Stop>
+                                              <color>
+                                                  <Color />
+                                              </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                              <color>
+                                                  <Color red="0.2199999988079071" green="0.04179999977350235" blue="0.04179999977350235" />
+                                              </color>
+                                          </Stop>
+                                      </stops>
+                                  </RadialGradient>
+                              </textFill>
+                          </Label>
+                        <Button layoutX="491.0" layoutY="467.0" mnemonicParsing="false" onAction="#goToAddPane" text="Add" />
+                        <Button layoutX="559.0" layoutY="467.0" mnemonicParsing="false" onAction="#goToEditPane" text="Edit" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="addPane" text="add">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="613.0">
+                     <children>
+                        <TextField fx:id="addSourceTxt" layoutX="73.0" layoutY="109.0" prefHeight="25.0" prefWidth="140.0" />
+                        <TextField fx:id="addTranslationTxt" layoutX="386.0" layoutY="109.0" />
+                        <ChoiceBox fx:id="addSourceCB" layoutX="55.0" layoutY="68.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="addTargetCB" layoutX="386.0" layoutY="56.0" prefWidth="150.0" />
+                        <Button fx:id="add" layoutX="564.0" layoutY="142.0" mnemonicParsing="false" onAction="#addWord" text="add" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="editPane" text="edit">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="wordTxtEdit" layoutX="269.0" layoutY="58.0" prefHeight="10.0" prefWidth="129.0" />
+                        <Label layoutX="190.0" layoutY="62.0" prefHeight="17.0" prefWidth="59.0" text="word" />
+                        <Label layoutX="182.0" layoutY="99.0" prefHeight="62.0" prefWidth="57.0" text="new word" />
+                        <Button layoutX="424.0" layoutY="117.0" mnemonicParsing="false" onAction="#editWord" prefHeight="25.0" prefWidth="57.0" text="edit" />
+                        <TextField fx:id="newWordTxtEdit" layoutX="269.0" layoutY="117.0" prefHeight="10.0" prefWidth="129.0" />
+                        <Button layoutX="424.0" layoutY="187.0" mnemonicParsing="false" onAction="#addTranslation" text="add Translation" />
+                        <Button layoutX="428.0" layoutY="58.0" mnemonicParsing="false" onAction="#deleteWord" text="delete" />
+                        <Label />
+                        <Button layoutX="540.0" layoutY="187.0" mnemonicParsing="false" onAction="#deleteTranslation" text="delete" />
+                        <TextField fx:id="OldTranslationTxtEdit" layoutX="282.0" layoutY="187.0" prefHeight="25.0" prefWidth="75.0" />
+                        <Label layoutX="190.0" layoutY="191.0" prefHeight="17.0" prefWidth="59.0" text="translation" />
+                        <Label layoutX="225.0" layoutY="249.0" prefHeight="25.0" prefWidth="27.0" text="new " />
+                        <Button layoutX="378.0" layoutY="249.0" mnemonicParsing="false" onAction="#editTranslation" prefHeight="25.0" prefWidth="57.0" text="edit" />
+                        <TextField fx:id="NewTranslationEditTxt" layoutX="282.0" layoutY="249.0" prefHeight="25.0" prefWidth="75.0" />
+                        <ChoiceBox fx:id="editSrcCB" layoutX="164.0" layoutY="17.0" prefWidth="150.0" />
+                        <ChoiceBox fx:id="editTargetCB" layoutX="378.0" layoutY="17.0" prefWidth="150.0" />
+                        <Button layoutX="490.0" layoutY="58.0" mnemonicParsing="false" onAction="#addWord" prefHeight="26.0" prefWidth="75.0" text="add" />
+                        <Label layoutX="197.0" layoutY="265.0" text="translation" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
     </children>
 </AnchorPane>

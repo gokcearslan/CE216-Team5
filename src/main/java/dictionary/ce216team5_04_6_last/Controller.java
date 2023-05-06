@@ -36,6 +36,34 @@ public class Controller implements Initializable {
 
     static String staticWord;
 
+    @FXML
+    private Tab editPane;
+    @FXML
+    private Tab searchPane;
+
+    @FXML
+    private Tab addPane;
+
+
+    @FXML
+    private TabPane TabPane;
+
+    public void goToSearchPane(){
+        TabPane.getSelectionModel().select(searchPane);
+    }
+    public void goToEditPane(){
+        TabPane.getSelectionModel().select(editPane);
+    }
+    public void goToAddPane(){
+        TabPane.getSelectionModel().select(addPane);
+    }
+    public void deleteTranslation(){}
+    public void deleteWord(){}
+    public void editTranslation(){}
+
+    public void editWord(){}
+    public void addTranslation(){}
+    public void addWord(){}
 
 
     public void search(ActionEvent e) {
