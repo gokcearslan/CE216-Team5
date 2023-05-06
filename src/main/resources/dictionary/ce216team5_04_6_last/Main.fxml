@@ -14,56 +14,58 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
     <children>
-      <VBox prefHeight="251.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;">
-         <children>
-              <ChoiceBox fx:id="SourceCB" prefHeight="28.0" prefWidth="158.0" translateX="75.0" translateY="84.0" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </ChoiceBox>
-              <ChoiceBox fx:id="TargetCB" prefHeight="28.0" prefWidth="157.0" translateX="496.0" translateY="53.0" VBox.vgrow="ALWAYS" />
-            <TextField fx:id="searchBox" prefHeight="67.0" prefWidth="342.0" translateY="75.0">
-               <VBox.margin>
-                  <Insets left="200.0" right="200.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets left="3.0" />
-               </padding>
-            </TextField>
-            <Button mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="111.0" text="Search" translateX="315.0" translateY="90.0" />
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" layoutX="-14.0" layoutY="261.0" prefHeight="314.0" prefWidth="670.0">
-         <children>
-              <TableView fx:id="sourceLangTable" prefHeight="326.0" prefWidth="669.0" translateX="50.0" VBox.vgrow="ALWAYS">
-                  <columns>
-                      <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
-                  </columns>
-              </TableView>
-         </children>
-      </VBox>
-      <Label prefHeight="66.0" prefWidth="169.0" text="DICTIONARY" translateX="300.0">
-         <font>
-            <Font name="Bookshelf Symbol 7" size="24.0" />
-         </font>
-         <textFill>
-            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.2199999988079071" green="0.04179999977350235" blue="0.04179999977350235" />
-                     </color>
-                  </Stop>
-               </stops>
-            </RadialGradient>
-         </textFill>
-      </Label>
+        <VBox prefHeight="192.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;">
+            <children>
+                <ChoiceBox fx:id="SourceCB" prefHeight="28.0" prefWidth="158.0" translateX="75.0" translateY="84.0" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </ChoiceBox>
+                <ChoiceBox fx:id="TargetCB" prefHeight="28.0" prefWidth="157.0" translateX="496.0" translateY="53.0" VBox.vgrow="ALWAYS" />
+                <TextField fx:id="searchBox" prefHeight="67.0" prefWidth="342.0" translateY="75.0">
+                    <VBox.margin>
+                        <Insets left="200.0" right="200.0" />
+                    </VBox.margin>
+                    <padding>
+                        <Insets left="3.0" />
+                    </padding>
+                </TextField>
+            </children>
+        </VBox>
+        <VBox alignment="CENTER" layoutX="8.0" layoutY="255.0" prefHeight="207.0" prefWidth="670.0">
+            <children>
+                <TableView fx:id="sourceLangTable" prefHeight="208.0" prefWidth="713.0" translateX="50.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+        <Label prefHeight="66.0" prefWidth="169.0" text="DICTIONARY" translateX="300.0">
+            <font>
+                <Font name="Bookshelf Symbol 7" size="24.0" />
+            </font>
+            <textFill>
+                <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color />
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="0.2199999988079071" green="0.04179999977350235" blue="0.04179999977350235" />
+                            </color>
+                        </Stop>
+                    </stops>
+                </RadialGradient>
+            </textFill>
+        </Label>
+        <Button layoutX="476.0" layoutY="210.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="111.0" text="Search" />
+        <Button layoutX="443.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchToAddPage" text="add new word" />
+
     </children>
 </AnchorPane>
