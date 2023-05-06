@@ -285,7 +285,7 @@ public class Language {
         this.trgLang = trgLang;
     }
 
-    public void loadWordsFromFile(Map<String, List<String>> hashMap, InputStream filePath, Charset charset) {
+    public static void loadWordsFromFile(Map<String, List<String>> hashMap, InputStream filePath, Charset charset) {
         // System.out.println("loadWordsFromFile");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePath, charset))) {

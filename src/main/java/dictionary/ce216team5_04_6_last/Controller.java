@@ -1,5 +1,6 @@
 package dictionary.ce216team5_04_6_last;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,8 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Controller implements Initializable {
@@ -32,9 +34,39 @@ public class Controller implements Initializable {
     @FXML
     private ChoiceBox TargetCB = new ChoiceBox<>();
 
-    Language language = new Language();
+    @FXML
+    private ChoiceBox addTargetCB = new ChoiceBox<>();
+    @FXML
+    private TextField addSourceTxt;
+    @FXML
+    private TextField addTranslationTxt;
+    @FXML
+    private TextField OldTranslationTxtEdit;
+    @FXML
+    private TextField NewTranslationEditTxt;
 
-    static String staticWord;
+    @FXML
+    private ChoiceBox addSourceCB = new ChoiceBox<>();
+
+
+    @FXML
+    private TableView<Language> addedTable = new TableView<>();
+
+    @FXML
+    private TableColumn<Language, String> addedWord = new TableColumn<>();
+
+    @FXML
+    private TableColumn<Language, String> addedTranslation = new TableColumn<>();
+
+    @FXML
+    private ChoiceBox editSrcCB = new ChoiceBox<>();
+    @FXML
+    private ChoiceBox editTargetCB = new ChoiceBox<>();
+
+    @FXML
+    private TextField wordTxtEdit;
+    @FXML
+    private TextField newWordTxtEdit;
 
     @FXML
     private Tab editPane;
@@ -47,6 +79,43 @@ public class Controller implements Initializable {
 
     @FXML
     private TabPane TabPane;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    public void switchToMainPage(ActionEvent e) throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
+    public void switchToAddPage(ActionEvent e) throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("add.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToEditPage(ActionEvent e) throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("edit.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    Language language = new Language();
+
+    static String staticWord;
 
     public void goToSearchPane(){
         TabPane.getSelectionModel().select(searchPane);
@@ -58,17 +127,158 @@ public class Controller implements Initializable {
         TabPane.getSelectionModel().select(addPane);
     }
     public void deleteTranslation(){}
-    public void deleteWord(){}
     public void editTranslation(){}
 
     public void editWord(){}
-    public void addTranslation(){}
-    public void addWord(){}
+
+
+    public void addWord() {
+        String sourceLangAdd = (String) addSourceCB.getValue();
+        String targetLangAdd = (String) addTargetCB.getValue();
+        String hashmapAdd=sourceLangAdd+targetLangAdd;
+        HashMap<String, List<String>> dictionary  = language.getHashmapNames().get(hashmapAdd);
+
+        String srcTxt = ".txt";
+        String filePath = sourceLangAdd + targetLangAdd + srcTxt;
+        String path = "C:\\Users\\pc\\Documents\\GitHub\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String lastFilePath = path + filePath;
+
+
+        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+            Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        if (dictionary.containsKey(addSourceTxt.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word already exists in the dictionary");
+            alert.showAndWait();
+        } else {
+            try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(lastFilePath, true), StandardCharsets.UTF_8);
+                 BufferedWriter bw = new BufferedWriter(osw)) {
+                bw.write(addSourceTxt.getText() + "// \n");
+                bw.write(addTranslationTxt.getText() + "\n");
+                bw.newLine();
+                bw.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            List<String> translations = new ArrayList<>();
+            translations.add(addTranslationTxt.getText());
+            dictionary.put(addSourceTxt.getText(),translations);
+            language.getHashmapNames().remove(hashmapAdd);
+            language.getHashmapNames().put(hashmapAdd,dictionary);
+            System.out.println("ADDED");
+        }
+    }
+    public void addTranslation() {
+        String sourceLangAdd = (String) editSrcCB.getValue();
+        String targetLangAdd = (String) editTargetCB.getValue();
+        String hashmapAdd=sourceLangAdd+targetLangAdd;
+        HashMap<String, List<String>> dictionary  = language.getHashmapNames().get(hashmapAdd);
+
+        String srcTxt = ".txt";
+        String filePath = sourceLangAdd + targetLangAdd + srcTxt;
+        String path = "C:\\Users\\pc\\Documents\\GitHub\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String lastFilePath = path + filePath;
+
+
+        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+            Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String currentWord = wordTxtEdit.getText();
+        String newTranslation = OldTranslationTxtEdit.getText();
+
+        if (language.getHashmapNames().get(hashmapAdd).containsKey(currentWord)) {
+            List<String> translations = language.getHashmapNames().get(hashmapAdd).get(currentWord);
+            List<String> newTranslations = new ArrayList<>();
+            newTranslations.addAll(translations);
+            newTranslations.add(newTranslation);
+            language.getHashmapNames().get(hashmapAdd).remove(currentWord, translations);
+            language.getHashmapNames().get(hashmapAdd).put(currentWord,newTranslations);
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : language.getHashmapNames().get(hashmapAdd).entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Translation added.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
+    }
+    public void deleteWord(){
+        String sourceLangAdd = (String) editSrcCB.getValue();
+        String targetLangAdd = (String) editTargetCB.getValue();
+        String hashmapAdd=sourceLangAdd+targetLangAdd;
+        HashMap<String, List<String>> dictionary  = language.getHashmapNames().get(hashmapAdd);
+
+        String srcTxt = ".txt";
+        String filePath = sourceLangAdd + targetLangAdd + srcTxt;
+        String path = "C:\\Users\\pc\\Documents\\GitHub\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String lastFilePath = path + filePath;
+
+
+        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+            Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String currentWord = wordTxtEdit.getText();
+        if (language.getHashmapNames().get(hashmapAdd).containsKey(currentWord)) {
+            language.getHashmapNames().get(hashmapAdd).remove(currentWord);
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry :  language.getHashmapNames().get(hashmapAdd).entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Word deleted.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
+    }
+
 
 
     public void search(ActionEvent e) {
-
-
 
         language.getHashmapNames().get("");
         if (firstBox.getText().isEmpty()) {
@@ -245,9 +455,7 @@ public class Controller implements Initializable {
         SourceCB.getSelectionModel().clearSelection();
 
     }
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+
     public void switchToFullSearchPage(ActionEvent e) throws IOException {
 
 
@@ -341,6 +549,15 @@ public class Controller implements Initializable {
         TargetCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
         SourceCB.setValue("Source");
         TargetCB.setValue("Target");
+
+        addSourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        addTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        addSourceCB.setValue("word");
+        addTargetCB.setValue("translation");
+        editSrcCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        editTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        editSrcCB.setValue("word");
+        editTargetCB.setValue("translation");
 
 
         // Add a listener to update the translations when the source language is changed
