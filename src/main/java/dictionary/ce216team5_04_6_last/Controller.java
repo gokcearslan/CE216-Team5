@@ -435,7 +435,68 @@ public class Controller implements Initializable {
         }
     }
 
-        @Override
+    public void deleteTranslation(){
+        String sourceEdit = (String) editSrcCB.getValue();
+        String targetEdit = (String) editTargetCB.getValue();
+        String srcTxt = ".txt";
+        String filePath = sourceEdit + targetEdit + srcTxt;
+        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String lastFilePath = path + filePath;
+
+        File file = new File(lastFilePath);
+        InputStream inputStream = null;
+
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String currentWord = wordTxtEdit.getText();
+        String translation = OldTranslationTxtEdit.getText();
+
+
+        Language languageEdit = new Language();
+        languageEdit.loadWordsFromFile(inputStream, StandardCharsets.UTF_8);
+
+        if (languageEdit.getHashMap().containsKey(currentWord)) {
+            List<String> translations = languageEdit.getHashMap().get(currentWord);
+            List<String> newTranslations = new ArrayList<>();
+            newTranslations.addAll(translations);
+            newTranslations.remove(translation);
+
+            languageEdit.getHashMap().remove(currentWord, translations);
+            languageEdit.getHashMap().put(currentWord,newTranslations);
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : languageEdit.getHashMap().entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Translation deleted.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
+    }
+
+
+    @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
             Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
             SourceCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
