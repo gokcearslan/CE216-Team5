@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Scene1.fxml"));
         primaryStage.setTitle("The Offline Dictionary");
         primaryStage.setMinWidth(750);
         primaryStage.setMinHeight(600);

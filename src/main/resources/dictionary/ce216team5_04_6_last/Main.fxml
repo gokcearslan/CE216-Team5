@@ -14,11 +14,11 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onMouseMoved="#setBox" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
     <children>
-        <VBox prefHeight="192.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;">
+        <VBox prefHeight="251.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;">
             <children>
-                <ChoiceBox fx:id="SourceCB" prefHeight="28.0" prefWidth="158.0" translateX="75.0" translateY="84.0" VBox.vgrow="ALWAYS">
+                <ChoiceBox fx:id="SourceCB" onMouseClicked="#setSourceBoxes" prefHeight="28.0" prefWidth="158.0" translateX="75.0" translateY="84.0" VBox.vgrow="ALWAYS">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
@@ -32,11 +32,12 @@
                         <Insets left="3.0" />
                     </padding>
                 </TextField>
+                <Button mnemonicParsing="false" onAction="#search2" prefHeight="25.0" prefWidth="111.0" text="Search" translateX="315.0" translateY="90.0" />
             </children>
         </VBox>
-        <VBox alignment="CENTER" layoutX="8.0" layoutY="255.0" prefHeight="207.0" prefWidth="670.0">
+        <VBox alignment="CENTER" layoutX="-14.0" layoutY="261.0" prefHeight="314.0" prefWidth="670.0">
             <children>
-                <TableView fx:id="sourceLangTable" prefHeight="208.0" prefWidth="713.0" translateX="50.0" VBox.vgrow="ALWAYS">
+                <TableView fx:id="sourceLangTable" prefHeight="326.0" prefWidth="669.0" translateX="50.0" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
                     </columns>
@@ -64,8 +65,5 @@
                 </RadialGradient>
             </textFill>
         </Label>
-        <Button layoutX="476.0" layoutY="210.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="111.0" text="Search" />
-        <Button layoutX="443.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchToAddPage" text="add new word" />
-        <Button layoutX="570.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchToEditPage" text="edit a word" />
     </children>
 </AnchorPane>
