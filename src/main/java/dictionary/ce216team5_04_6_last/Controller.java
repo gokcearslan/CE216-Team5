@@ -502,15 +502,23 @@ public class Controller implements Initializable {
             alert.showAndWait();
         }
     }
-
+ public void addTranslation(){}
+    public void  deleteWord(){}
 
     @Override
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
-        SourceCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
-        TargetCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
+        SourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        TargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
         SourceCB.setValue("Source");
         TargetCB.setValue("Target");
-
+        addSourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        addTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        addSourceCB.setValue("word");
+        addTargetCB.setValue("translation");
+        editSrcCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        editTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
+        editSrcCB.setValue("word");
+        editTargetCB.setValue("translation");
     }
 }
