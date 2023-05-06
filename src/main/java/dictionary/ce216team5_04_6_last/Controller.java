@@ -14,10 +14,11 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
-
-
 
 public class Controller implements Initializable {
 
@@ -39,6 +40,11 @@ public class Controller implements Initializable {
     private TextField addSourceTxt;
     @FXML
     private TextField addTranslationTxt;
+    @FXML
+    private TextField OldTranslationTxtEdit;
+    @FXML
+    private TextField NewTranslationEditTxt;
+
 
     @FXML
     private TableView<Language> addedTable = new TableView<>();
@@ -58,10 +64,7 @@ public class Controller implements Initializable {
     private TextField wordTxtEdit;
     @FXML
     private TextField newWordTxtEdit;
-    @FXML
-    private TextField OldTranslationTxtEdit;
-    @FXML
-    private TextField NewTranslationEditTxt;
+
 
     private Stage stage;
     private Scene scene;
@@ -84,6 +87,7 @@ public class Controller implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     public void switchToEditPage(ActionEvent e) throws IOException {
 
         root = FXMLLoader.load(getClass().getResource("edit.fxml"));
@@ -123,7 +127,7 @@ public class Controller implements Initializable {
             alert.showAndWait();
             return;
         }
-        //String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
+        //  String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
         String srcTxt = ".txt";
         String filePath = sourceLang + targetLang + srcTxt;
         InputStream absolutepath = getClass().getResourceAsStream(filePath);
@@ -185,7 +189,6 @@ public class Controller implements Initializable {
                 }
             }
 
-
             // Set the column name to the target language
             setColumnName(targetLang);
 
@@ -215,7 +218,7 @@ public class Controller implements Initializable {
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
         //String path = "CE216-Team5/src/main/resources/dictionary/ce216team5_04_6_last/";
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -242,7 +245,7 @@ public class Controller implements Initializable {
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(addSourceTxt.getText() + "//");
                 bw.newLine();
-                List<String> addedTranslation = new ArrayList<>();
+                List<String>  addedTranslation = new ArrayList<>();
                 addedTranslation.add(addTranslationTxt.getText());
                 for (String item : addedTranslation) {
                     bw.write(item + "\n");
@@ -261,15 +264,14 @@ public class Controller implements Initializable {
             System.out.println("ADDED");
         }
     }
-
-    public void addWord2() {
+    public void addWord2(){
         String sourceLangAdd = (String) addSourceCB.getValue();
         String targetLangAdd = (String) addTargetCB.getValue();
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
         //String path = "CE216-Team5/src/main/resources/dictionary/ce216team5_04_6_last/";
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -320,13 +322,12 @@ public class Controller implements Initializable {
             alert.showAndWait();
         }
     }
-
     public void editWord() {
         String sourceEdit = (String) editSrcCB.getValue();
         String targetEdit = (String) editTargetCB.getValue();
         String srcTxt = ".txt";
         String filePath = sourceEdit + targetEdit + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -381,12 +382,72 @@ public class Controller implements Initializable {
         }
     }
 
-    public void editTranslation() {
+
+    public void addTranslation() {
         String sourceEdit = (String) editSrcCB.getValue();
         String targetEdit = (String) editTargetCB.getValue();
         String srcTxt = ".txt";
         String filePath = sourceEdit + targetEdit + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
+        String lastFilePath = path + filePath;
+
+        File file = new File(lastFilePath);
+        InputStream inputStream = null;
+
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String currentWord = wordTxtEdit.getText();
+        String newTranslation = NewTranslationEditTxt.getText();
+
+        Language languageEdit = new Language();
+        languageEdit.loadWordsFromFile(inputStream, StandardCharsets.UTF_8);
+
+
+        if (languageEdit.getHashMap().containsKey(currentWord)) {
+            List<String> translations = languageEdit.getHashMap().get(currentWord);
+            List<String> newTranslations = new ArrayList<>();
+            newTranslations.addAll(translations);
+            newTranslations.add(newTranslation);
+            languageEdit.getHashMap().remove(currentWord, translations);
+            languageEdit.getHashMap().put(currentWord,newTranslations);
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : languageEdit.getHashMap().entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Translation added.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
+    }
+
+    public void editTranslation(){
+        String sourceEdit = (String) editSrcCB.getValue();
+        String targetEdit = (String) editTargetCB.getValue();
+        String srcTxt = ".txt";
+        String filePath = sourceEdit + targetEdit + srcTxt;
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -414,7 +475,7 @@ public class Controller implements Initializable {
                 newTranslations.set(index, newTranslation);
             }
             languageEdit.getHashMap().remove(currentWord, translations);
-            languageEdit.getHashMap().put(currentWord, newTranslations);
+            languageEdit.getHashMap().put(currentWord,newTranslations);
 
             // Write the updated hash map to the file
             try {
@@ -441,6 +502,59 @@ public class Controller implements Initializable {
             alert.setHeaderText("The word was not found in the dictionary!");
             alert.showAndWait();
         }
+
+    }
+
+    public void deleteWord(){
+        String sourceEdit = (String) editSrcCB.getValue();
+        String targetEdit = (String) editTargetCB.getValue();
+        String srcTxt = ".txt";
+        String filePath = sourceEdit + targetEdit + srcTxt;
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
+        String lastFilePath = path + filePath;
+
+        File file = new File(lastFilePath);
+        InputStream inputStream = null;
+
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String currentWord = wordTxtEdit.getText();
+
+        Language languageEdit = new Language();
+        languageEdit.loadWordsFromFile(inputStream, StandardCharsets.UTF_8);
+
+        if (languageEdit.getHashMap().containsKey(currentWord)) {
+            languageEdit.getHashMap().remove(currentWord);
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : languageEdit.getHashMap().entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Word deleted.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
     }
 
     public void deleteTranslation(){
@@ -448,7 +562,7 @@ public class Controller implements Initializable {
         String targetEdit = (String) editTargetCB.getValue();
         String srcTxt = ".txt";
         String filePath = sourceEdit + targetEdit + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -502,8 +616,6 @@ public class Controller implements Initializable {
             alert.showAndWait();
         }
     }
- public void addTranslation(){}
-    public void  deleteWord(){}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -520,5 +632,6 @@ public class Controller implements Initializable {
         editTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
         editSrcCB.setValue("word");
         editTargetCB.setValue("translation");
+
     }
 }
