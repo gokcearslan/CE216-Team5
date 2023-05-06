@@ -252,6 +252,64 @@ public class Controller implements Initializable {
             System.out.println("ADDED");
         }
     }
+    public void addWord2(){
+        String sourceLangAdd = (String) addSourceCB.getValue();
+        String targetLangAdd = (String) addTargetCB.getValue();
+
+        String srcTxt = ".txt";
+        String filePath = sourceLangAdd + targetLangAdd + srcTxt;
+        //String path = "CE216-Team5/src/main/resources/dictionary/ce216team5_04_6_last/";
+        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
+        String lastFilePath = path + filePath;
+
+        File file = new File(lastFilePath);
+        InputStream inputStream = null;
+
+
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        String newWord = addSourceTxt.getText();
+        String newTranslation = addTranslationTxt.getText();
+
+        Language languageEdit = new Language();
+        languageEdit.loadWordsFromFile(inputStream, StandardCharsets.UTF_8);
+
+
+        if (!languageEdit.getHashMap().containsKey(newWord)) {
+            List<String> translations = new ArrayList<>();
+            translations.add(newTranslation);
+            languageEdit.getHashMap().put(newWord, translations);
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : languageEdit.getHashMap().entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Word added.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
+    }
 
 
     @Override
