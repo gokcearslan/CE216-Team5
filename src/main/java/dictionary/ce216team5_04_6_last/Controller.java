@@ -17,6 +17,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+
+
 public class Controller implements Initializable {
 
     @FXML
@@ -56,7 +58,10 @@ public class Controller implements Initializable {
     private TextField wordTxtEdit;
     @FXML
     private TextField newWordTxtEdit;
-
+    @FXML
+    private TextField OldTranslationTxtEdit;
+    @FXML
+    private TextField NewTranslationEditTxt;
 
     private Stage stage;
     private Scene scene;
@@ -91,39 +96,36 @@ public class Controller implements Initializable {
             alert.setHeaderText("Please select source and target languages");
             alert.showAndWait();
             return;
-        }
-        else if (sourceLang.equals("Source") || targetLang.equals("Target")) {
+        } else if (sourceLang.equals("Source") || targetLang.equals("Target")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please select a source and target language");
             alert.showAndWait();
             return;
-        }
-        else if (sourceLang.equals(targetLang)) {
+        } else if (sourceLang.equals(targetLang)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please select different source and target languages");
             alert.showAndWait();
             return;
-        }
-        else if (searchBox.getText().isEmpty()) {
+        } else if (searchBox.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please enter a word to search");
             alert.showAndWait();
             return;
         }
-      //String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
+        //String srcSource = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "dictionary" + File.separator + "ce216team5_04_6_last" + File.separator;
         String srcTxt = ".txt";
-        String filePath=sourceLang + targetLang + srcTxt;
-        InputStream absolutepath =getClass().getResourceAsStream(filePath);
+        String filePath = sourceLang + targetLang + srcTxt;
+        InputStream absolutepath = getClass().getResourceAsStream(filePath);
 
         //File file = new File(filePath);
 
-        if (absolutepath==null) {
+        if (absolutepath == null) {
             String srcTxt2 = "English.txt";
-            String filePath2=sourceLang+srcTxt2;
-            InputStream absolutepath2 =getClass().getResourceAsStream(filePath2);
+            String filePath2 = sourceLang + srcTxt2;
+            InputStream absolutepath2 = getClass().getResourceAsStream(filePath2);
 
             language.loadWordsFromFile(absolutepath2, StandardCharsets.UTF_8);
             List<String> values2 = null;
@@ -136,8 +138,8 @@ public class Controller implements Initializable {
             String newKey = values2.get(0);
             String srcTxt3 = "English";
 
-            String filePath3=srcTxt3+targetLang+srcTxt;
-            InputStream absolutepath3=getClass().getResourceAsStream(filePath3);
+            String filePath3 = srcTxt3 + targetLang + srcTxt;
+            InputStream absolutepath3 = getClass().getResourceAsStream(filePath3);
             //String filePath3 = "src/resources/" + "English" + targetLang + ".txt";
             language.loadWordsFromFile(absolutepath3, StandardCharsets.UTF_8);
             List<String> values3 = null;
@@ -161,7 +163,7 @@ public class Controller implements Initializable {
 
         } else {
 
-         //   System.out.println("search");
+            //   System.out.println("search");
 
             language.loadWordsFromFile(absolutepath, StandardCharsets.UTF_8);
 
@@ -174,9 +176,6 @@ public class Controller implements Initializable {
                     break;
                 }
             }
-
-
-
 
 
             // Set the column name to the target language
@@ -193,10 +192,12 @@ public class Controller implements Initializable {
             }
         }
     }
+
     // Method to set the column name to the target language
-    private void setColumnName (String targetLang){
+    private void setColumnName(String targetLang) {
         Translation.setText(targetLang);
     }
+
     public void addWord() {
         //PATH
         //arama için hashmap
@@ -206,7 +207,7 @@ public class Controller implements Initializable {
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
         //String path = "CE216-Team5/src/main/resources/dictionary/ce216team5_04_6_last/";
-        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
+        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -233,7 +234,7 @@ public class Controller implements Initializable {
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(addSourceTxt.getText() + "//");
                 bw.newLine();
-                List<String>  addedTranslation = new ArrayList<>();
+                List<String> addedTranslation = new ArrayList<>();
                 addedTranslation.add(addTranslationTxt.getText());
                 for (String item : addedTranslation) {
                     bw.write(item + "\n");
@@ -252,14 +253,15 @@ public class Controller implements Initializable {
             System.out.println("ADDED");
         }
     }
-    public void addWord2(){
+
+    public void addWord2() {
         String sourceLangAdd = (String) addSourceCB.getValue();
         String targetLangAdd = (String) addTargetCB.getValue();
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
         //String path = "CE216-Team5/src/main/resources/dictionary/ce216team5_04_6_last/";
-        String path = "C:\\Users\\pc\\IdeaProjects\\sample\\src\\sample\\";
+        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
         String lastFilePath = path + filePath;
 
         File file = new File(lastFilePath);
@@ -311,14 +313,136 @@ public class Controller implements Initializable {
         }
     }
 
+    public void editWord() {
+        String sourceEdit = (String) editSrcCB.getValue();
+        String targetEdit = (String) editTargetCB.getValue();
+        String srcTxt = ".txt";
+        String filePath = sourceEdit + targetEdit + srcTxt;
+        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String lastFilePath = path + filePath;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
-        SourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
-        TargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
-        SourceCB.setValue("Source");
-        TargetCB.setValue("Target");
+        File file = new File(lastFilePath);
+        InputStream inputStream = null;
 
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String currentWord = wordTxtEdit.getText();
+        String newWord = newWordTxtEdit.getText();
+
+        Language languageEdit = new Language();
+        languageEdit.loadWordsFromFile(inputStream, StandardCharsets.UTF_8);
+
+        if (languageEdit.getHashMap().containsKey(currentWord)) {
+            List<String> translations = languageEdit.getHashMap().get(currentWord);
+            String translation = translations != null && !translations.isEmpty() ? translations.get(0) : null;
+            if (translation != null) {
+                languageEdit.getHashMap().remove(currentWord);
+                List<String> newTranslations = new ArrayList<>();
+                newTranslations.add(translation);
+                languageEdit.getHashMap().put(newWord, newTranslations);
+            }
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : languageEdit.getHashMap().entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Word edited.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
     }
-}
+
+    public void editTranslation() {
+        String sourceEdit = (String) editSrcCB.getValue();
+        String targetEdit = (String) editTargetCB.getValue();
+        String srcTxt = ".txt";
+        String filePath = sourceEdit + targetEdit + srcTxt;
+        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-Last\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
+        String lastFilePath = path + filePath;
+
+        File file = new File(lastFilePath);
+        InputStream inputStream = null;
+
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String currentWord = wordTxtEdit.getText();
+        String translation = OldTranslationTxtEdit.getText();
+        String newTranslation = NewTranslationEditTxt.getText();
+
+        Language languageEdit = new Language();
+        languageEdit.loadWordsFromFile(inputStream, StandardCharsets.UTF_8);
+
+        if (languageEdit.getHashMap().containsKey(currentWord)) {
+            List<String> translations = languageEdit.getHashMap().get(currentWord);
+            List<String> newTranslations = new ArrayList<>();
+            newTranslations.addAll(translations);
+            int index = newTranslations.indexOf(translation);
+            if (index != -1) {
+                newTranslations.set(index, newTranslation);
+            }
+            languageEdit.getHashMap().remove(currentWord, translations);
+            languageEdit.getHashMap().put(currentWord, newTranslations);
+
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : languageEdit.getHashMap().entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Translation edited.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
+        }
+    }
+
+        @Override
+        public void initialize (URL url, ResourceBundle resourceBundle){
+            Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
+            SourceCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
+            TargetCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
+            SourceCB.setValue("Source");
+            TargetCB.setValue("Target");
+
+        }
+    }
+
