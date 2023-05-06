@@ -66,6 +66,6 @@
         </Label>
         <Button layoutX="476.0" layoutY="210.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="111.0" text="Search" />
         <Button layoutX="443.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchToAddPage" text="add new word" />
-
+        <Button layoutX="570.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchToEditPage" text="edit a word" />
     </children>
 </AnchorPane>

@@ -84,6 +84,14 @@ public class Controller implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    public void switchToEditPage(ActionEvent e) throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("edit.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
     public void search() {
@@ -497,13 +505,12 @@ public class Controller implements Initializable {
 
 
     @Override
-        public void initialize (URL url, ResourceBundle resourceBundle){
-            Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
-            SourceCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
-            TargetCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
-            SourceCB.setValue("Source");
-            TargetCB.setValue("Target");
+    public void initialize (URL url, ResourceBundle resourceBundle){
+        Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
+        SourceCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
+        TargetCB.getItems().addAll("English", "French", "German", "Italian", "Greek", "Turkish", "Swedish");
+        SourceCB.setValue("Source");
+        TargetCB.setValue("Target");
 
-        }
     }
-
+}
