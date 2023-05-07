@@ -19,13 +19,6 @@ sourceSets {
     }
 }
 
-dependencies {
-    implementation 'org.openjfx:javafx-base:19'
-    implementation 'org.openjfx:javafx-controls:19'
-    implementation 'org.openjfx:javafx-graphics:19'
-    implementation 'org.openjfx:javafx-fxml:19'
-}
-
 javafx {
     version = '19'
     modules = ['javafx.controls', 'javafx.fxml']
@@ -40,18 +33,12 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-task customFatJar(type: Jar) {
+task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'dictionary.ce216team5_04_6_last.Main'
+        attributes 'Main-Class': application.mainClass
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    from('src/main/resources/dictionary') {
-        include '**/*'
-    }
-    into('') {
-        from(sourceSets.main.output.classesDirs)
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    with jar
 }

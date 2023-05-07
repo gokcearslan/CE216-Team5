@@ -793,12 +793,12 @@ public class Controller implements Initializable {
         }
         //SourceCB.getItems().setAll(hashMapName);
 
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-        helpButton.setGraphic(imageView);
-        addView.setFitWidth(30);
-        addView.setFitHeight(30);
-        GoToAddEditButton.setGraphic(addView);
+      //  imageView.setFitWidth(30);
+     //   imageView.setFitHeight(30);
+      //  helpButton.setGraphic(imageView);
+      //  addView.setFitWidth(30);
+      //  addView.setFitHeight(30);
+        // GoToAddEditButton.setGraphic(addView);
         helpButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
