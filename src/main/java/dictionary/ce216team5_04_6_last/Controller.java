@@ -1,6 +1,4 @@
 package dictionary.ce216team5_04_6_last;
-
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,11 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Controller implements Initializable {
     @FXML
@@ -106,18 +104,24 @@ public class Controller implements Initializable {
         TabPane.getSelectionModel().select(addPane);
     }
 
-    public void addWord(){
+    public void addWord() {
         String sourceLangAdd = (String) addSourceCB.getValue();
         String targetLangAdd = (String) addTargetCB.getValue();
-        String hashmapAdd=sourceLangAdd+targetLangAdd;
-        HashMap<String, List<String>> dictionary  = language.getHashmapNames().get(hashmapAdd);
+        String hashmapAdd = sourceLangAdd + targetLangAdd;
+        HashMap<String, List<String>> dictionary = language.getHashmapNames().get(hashmapAdd);
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String lastFilePath = getClass().getResource(filePath).getPath();
+        String projectResourcesPath = "src/main/resources";
+        String dictionariesFolder = "dictionary/ce216team5_04_6_last";
+        File dictionaryFolderFile = new File(projectResourcesPath, dictionariesFolder);
+        if (!dictionaryFolderFile.exists()) {
+            dictionaryFolderFile.mkdirs();
+        }
 
+        String outputFilePath = new File(dictionaryFolderFile, filePath).getAbsolutePath();
 
-        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+        try (InputStream inputStream = new FileInputStream(outputFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,23 +130,21 @@ public class Controller implements Initializable {
         String newWord = addSourceTxt.getText();
         String newTranslation = addTranslationTxt.getText();
 
-
-
         if (!language.getHashmapNames().get(hashmapAdd).containsKey(newWord)) {
             List<String> translations = new ArrayList<>();
             translations.add(newTranslation);
             language.getHashmapNames().get(hashmapAdd).put(newWord, translations);
+
             // Write the updated hash map to the file
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+                        new FileOutputStream(outputFilePath), StandardCharsets.UTF_8));
 
                 for (Map.Entry<String, List<String>> entry : language.getHashmapNames().get(hashmapAdd).entrySet()) {
                     writer.write(entry.getKey() + "//" + "\n");
                     for (String element : entry.getValue()) {
                         writer.write(element + "\n");
                     }
-
                 }
 
                 writer.close();
@@ -158,6 +160,7 @@ public class Controller implements Initializable {
             alert.showAndWait();
         }
     }
+
     public void addTranslation() {
         String sourceLangAdd = (String) editSrcCB.getValue();
         String targetLangAdd = (String) editTargetCB.getValue();
@@ -166,9 +169,16 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String lastFilePath = getClass().getResource(filePath).getPath();
+        String projectResourcesPath = "src/main/resources";
+        String dictionariesFolder = "dictionary/ce216team5_04_6_last";
+        File dictionaryFolderFile = new File(projectResourcesPath, dictionariesFolder);
+        if (!dictionaryFolderFile.exists()) {
+            dictionaryFolderFile.mkdirs();
+        }
 
-        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+        String outputFilePath = new File(dictionaryFolderFile, filePath).getAbsolutePath();
+
+        try (InputStream inputStream = new FileInputStream(outputFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
@@ -187,7 +197,7 @@ public class Controller implements Initializable {
             // Write the updated hash map to the file
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+                        new FileOutputStream(outputFilePath), StandardCharsets.UTF_8));
 
                 for (Map.Entry<String, List<String>> entry : language.getHashmapNames().get(hashmapAdd).entrySet()) {
                     writer.write(entry.getKey() + "//" + "\n");
@@ -217,9 +227,16 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String lastFilePath = getClass().getResource(filePath).getPath();
+        String projectResourcesPath = "src/main/resources";
+        String dictionariesFolder = "dictionary/ce216team5_04_6_last";
+        File dictionaryFolderFile = new File(projectResourcesPath, dictionariesFolder);
+        if (!dictionaryFolderFile.exists()) {
+            dictionaryFolderFile.mkdirs();
+        }
 
-        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+        String outputFilePath = new File(dictionaryFolderFile, filePath).getAbsolutePath();
+
+        try (InputStream inputStream = new FileInputStream(outputFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
@@ -231,7 +248,7 @@ public class Controller implements Initializable {
             // Write the updated hash map to the file
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+                        new FileOutputStream(outputFilePath), StandardCharsets.UTF_8));
 
                 for (Map.Entry<String, List<String>> entry :  language.getHashmapNames().get(hashmapAdd).entrySet()) {
                     writer.write(entry.getKey() + "//" + "\n");
@@ -268,18 +285,6 @@ public class Controller implements Initializable {
             return;
         }
 
-        /*String searchWord = firstBox.getText();
-
-
-        // Clear the SourceCB items
-        SourceCB.getItems().clear();
-        String hashMapName = language.getHashMapName(language.hashMapCollection, searchWord);
-        System.out.println(hashMapName);
-
-        SourceCB.getItems().add(hashMapName);
-
-
-         */
         staticWord = firstBox.getText();
         passInformation(staticWord);
 
@@ -292,23 +297,6 @@ public class Controller implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-
-        // Iterate through all available HashMaps and find the source languages
-        //List<String> sourceLanguages = language.getSourceLanguagesForWord(searchWord);
-        //  System.out.println(sourceLanguages);
-       /* for (String sourceLanguage : sourceLanguages) {
-            if (!SourceCB.getItems().contains(sourceLanguage)) {
-                SourceCB.getItems().add(sourceLanguage);
-
-            }
-        }
-
-        */
-
-
-
-
     }
     static List<String> hashMapName;
     public void passInformation(String word){
@@ -328,12 +316,9 @@ public class Controller implements Initializable {
         // Clear the SourceCB items
         //SourceCB.getItems().clear();
 
-
         hashMapName = language.getHashMapName(language.hashMapCollection, searchWord);
 
         System.out.println(hashMapName + "?");
-
-
 
         System.out.println("var mı");
         HashMap<String, HashMap<String, List<String>>> hashMapCollection = language.getHashMapCollection();
@@ -341,12 +326,6 @@ public class Controller implements Initializable {
         for (String key : hashMapCollection.keySet()) {
             System.out.println(key);
         }
-
-
-
-        // If no source languages found, show an error message
-
-
     }
 
     public void setSourceBoxes(){
@@ -396,6 +375,8 @@ public class Controller implements Initializable {
             return;
         }
 
+        setColumnName(chosenTarget);
+
         System.out.println(hashmapNameForSearch);
 
         System.out.println("Selected source lang: " + chosenSource);
@@ -404,7 +385,51 @@ public class Controller implements Initializable {
 
         HashMap<String, List<String>> desiredHashMap = tempHashMapCollection.get(hashmapNameForSearch);
 
-        // Check if the desired HashMap is not null
+        List<String> bridgeLanguages = Arrays.asList("English", "German", "French", "Italian","Greek","Swedish","Turkish");
+
+        // If the desiredHashMap is not found, try using bridge languages
+        if (desiredHashMap == null) {
+            for (String bridgeLang : bridgeLanguages) {
+                String srcToBridgeKey = chosenSource + bridgeLang;
+                String bridgeToTargetKey = bridgeLang + chosenTarget;
+
+                HashMap<String, List<String>> srcToBridgeMap = tempHashMapCollection.get(srcToBridgeKey);
+                HashMap<String, List<String>> bridgeToTargetMap = tempHashMapCollection.get(bridgeToTargetKey);
+
+                if (srcToBridgeMap != null && bridgeToTargetMap != null) {
+                    String searchWord = searchBox.getText();
+                    List<String> bridgeWords = srcToBridgeMap.get(searchWord);
+
+                    if (bridgeWords != null && !bridgeWords.isEmpty()) {
+                        List<String> targetWords = new ArrayList<>();
+                        String firstBridgeWord = bridgeWords.get(0);
+
+                        String[] parts = firstBridgeWord.split(",\s");
+                        String X = parts[0].replaceAll("\\d+\\.\s", "");
+
+                        // Search for the value of X in the bridgeToTargetMap
+                        List<String> tempList = bridgeToTargetMap.get(X);
+
+                        if (tempList != null) {
+                            targetWords.addAll(tempList);
+                        }
+
+                        ObservableList<Language> list2 = FXCollections.observableArrayList();
+                        for (String targetWord : targetWords) {
+                            list2.add(new Language(targetWord));
+                        }
+
+                        for (String targetWord : targetWords) {
+                            System.out.println("target:" + targetWord);
+                        }
+
+                        sourceLangTable.setItems(list2);
+                        break;
+                    }
+                }
+            }
+        }
+
         if (desiredHashMap != null) {
             List<String> values = null;
 
@@ -414,9 +439,6 @@ public class Controller implements Initializable {
                     break;
                 }
             }
-
-            // Set the column name to the target language
-            setColumnName(chosenTarget);
 
             if (values != null && !values.isEmpty()) {
                 ObservableList<Language> list = FXCollections.observableArrayList();
@@ -432,7 +454,66 @@ public class Controller implements Initializable {
         }
         searchBox.clear();
         SourceCB.getSelectionModel().clearSelection();
+    }
 
+    public void findSynonyms() {
+        String searchWord = searchBox.getText();
+        String chosenSource = SourceCB.getValue().toString();
+        String chosenTarget = TargetCB.getValue().toString();
+
+        String hashmapNameForSearch = chosenSource + chosenTarget;
+        Map<String, HashMap<String,List<String>>> tempHashMapCollection = language.getHashmapNames();
+        HashMap<String, List<String>> desiredHashMap = tempHashMapCollection.get(hashmapNameForSearch);
+
+        if (desiredHashMap != null) {
+            List<String> targetTranslations = desiredHashMap.get(searchWord);
+
+            if (targetTranslations != null && !targetTranslations.isEmpty()) {
+                String targetTranslationsLine = targetTranslations.get(0);
+
+                // Split and clean the translation line to get the first word
+                String[] parts = targetTranslationsLine.split(",\s");
+                String targetWord = parts[0].replaceAll("\\d+\\.\s", "");
+
+                // searching for synonyms using the reverse HashMap
+                String reverseHashmapName = chosenTarget + chosenSource;
+                HashMap<String, List<String>> reverseHashMap = tempHashMapCollection.get(reverseHashmapName);
+
+                if (reverseHashMap != null) {
+                    List<String> synonyms = reverseHashMap.get(targetWord);
+
+                    if (synonyms != null && !synonyms.isEmpty()) {
+                        List<String> filteredSynonyms = synonyms.stream()
+                                .filter(s -> s.contains(","))
+                                .collect(Collectors.toList());
+
+                        String firstSynonymsLine = filteredSynonyms.isEmpty() ? null : filteredSynonyms.get(0);
+
+                        if (firstSynonymsLine != null) {
+                            String[] synonymParts = firstSynonymsLine.split(",\s*");
+
+                            ObservableList<Language> list = FXCollections.observableArrayList();
+                            for (String synonym : synonymParts) {
+                                list.add(new Language(synonym));
+                            }
+                            sourceLangTable.setItems(list);
+                        } else {
+                            System.out.println("No comma-separated synonyms found");
+                            sourceLangTable.getItems().clear();
+                        }
+                    } else {
+                        System.out.println("No synonyms found");
+                        sourceLangTable.getItems().clear();
+                    }
+                } else {
+                    System.out.println("Error: Reverse HashMap not found for " + reverseHashmapName);
+                }
+            } else {
+                System.out.println("No translations found for the search word");
+            }
+        } else {
+            System.out.println("Error: HashMap not found for " + hashmapNameForSearch);
+        }
     }
 
     public void switchToFullSearchPage(ActionEvent e) throws IOException {
@@ -446,64 +527,6 @@ public class Controller implements Initializable {
         // stage.setResizable(false);
 
     }
-    public void switchToOpeningPage() {
-        try {
-            root = FXMLLoader.load(getClass().getResource("Scene1.fxml"));
-            stage = (Stage) scene.getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // stage.setResizable(false);
-
-    }
-
-
-    // Method to update the translations in the TableView3
-    private void updateTranslations () {
-        String sourceLang = (String) SourceCB.getValue();
-        String targetLang = (String) TargetCB.getValue();
-        String searchWord = searchBox.getText();
-        String hashmapName = sourceLang + targetLang;
-
-
-        if (sourceLang != null && !sourceLang.equals("Source") && targetLang != null && !targetLang.equals("Target")) {
-            Map<String, List<String>> dictionary = language.getHashMap();
-
-            if (dictionary != null) {
-                List<String> values = dictionary.get(searchWord);
-
-                if (values != null && !values.isEmpty()) {
-                    ObservableList<Language> list = FXCollections.observableArrayList();
-                    for (String value : values) {
-                        list.add(new Language(value, sourceLang));
-                    }
-                    sourceLangTable.setItems(list);
-
-                    // Update the ChoiceBox with source languages for the search word
-                       /* List<String> sourceLanguages = language.getHashMapName(searchWord);
-                        SourceCB.getItems().clear();
-                        SourceCB.getItems().addAll(sourceLanguages);
-                        SourceCB.setValue(sourceLang);
-                    }
-
-                        else {
-
-                    sourceLangTable.getItems().clear();
-                }
-
-                    */
-
-
-                }
-            }
-
-
-        }
-    }
 
     boolean isTextSet = false;
     public void setBox(){
@@ -514,7 +537,6 @@ public class Controller implements Initializable {
         }
 
     }
-
 
     // Method to set the column name to the target language
     private void setColumnName (String targetLang){
@@ -529,10 +551,16 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String lastFilePath = getClass().getResource(filePath).getPath();
+        String projectResourcesPath = "src/main/resources";
+        String dictionariesFolder = "dictionary/ce216team5_04_6_last";
+        File dictionaryFolderFile = new File(projectResourcesPath, dictionariesFolder);
+        if (!dictionaryFolderFile.exists()) {
+            dictionaryFolderFile.mkdirs();
+        }
 
+        String outputFilePath = new File(dictionaryFolderFile, filePath).getAbsolutePath();
 
-        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+        try (InputStream inputStream = new FileInputStream(outputFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
@@ -555,7 +583,7 @@ public class Controller implements Initializable {
             // Write the updated hash map to the file
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+                        new FileOutputStream(outputFilePath), StandardCharsets.UTF_8));
 
                 for (Map.Entry<String, List<String>> entry : language.getHashmapNames().get(hashmapAdd).entrySet()) {
                     writer.write(entry.getKey() + "//" + "\n");
@@ -588,9 +616,16 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String lastFilePath = getClass().getResource(filePath).getPath();
+        String projectResourcesPath = "src/main/resources";
+        String dictionariesFolder = "dictionary/ce216team5_04_6_last";
+        File dictionaryFolderFile = new File(projectResourcesPath, dictionariesFolder);
+        if (!dictionaryFolderFile.exists()) {
+            dictionaryFolderFile.mkdirs();
+        }
 
-        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+        String outputFilePath = new File(dictionaryFolderFile, filePath).getAbsolutePath();
+
+        try (InputStream inputStream = new FileInputStream(outputFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
@@ -611,7 +646,7 @@ public class Controller implements Initializable {
             // Write the updated hash map to the file
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+                        new FileOutputStream(outputFilePath), StandardCharsets.UTF_8));
 
                 for (Map.Entry<String, List<String>> entry :language.getHashmapNames().get(hashmapAdd).entrySet()) {
                     writer.write(entry.getKey() + "//" + "\n");
@@ -643,9 +678,16 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String lastFilePath = getClass().getResource(filePath).getPath();
+        String projectResourcesPath = "src/main/resources";
+        String dictionariesFolder = "dictionary/ce216team5_04_6_last";
+        File dictionaryFolderFile = new File(projectResourcesPath, dictionariesFolder);
+        if (!dictionaryFolderFile.exists()) {
+            dictionaryFolderFile.mkdirs();
+        }
 
-        try (InputStream inputStream = new FileInputStream(lastFilePath)) {
+        String outputFilePath = new File(dictionaryFolderFile, filePath).getAbsolutePath();
+
+        try (InputStream inputStream = new FileInputStream(outputFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
@@ -665,7 +707,7 @@ public class Controller implements Initializable {
             // Write the updated hash map to the file
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+                        new FileOutputStream(outputFilePath), StandardCharsets.UTF_8));
 
                 for (Map.Entry<String, List<String>> entry : language.getHashmapNames().get(hashmapAdd).entrySet()) {
                     writer.write(entry.getKey() + "//" + "\n");
@@ -689,8 +731,6 @@ public class Controller implements Initializable {
         }
     }
 
-
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         Translation.setCellValueFactory(new PropertyValueFactory<Language, String>("trgLang"));
@@ -701,23 +741,18 @@ public class Controller implements Initializable {
 
         addSourceCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
         addTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
-        addSourceCB.setValue("word");
-        addTargetCB.setValue("translation");
+        addSourceCB.setValue("Source");
+        addTargetCB.setValue("Target");
         editSrcCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
         editTargetCB.getItems().addAll("English", "French", "German","Italian", "Greek", "Turkish","Swedish");
-        editSrcCB.setValue("word");
-        editTargetCB.setValue("translation");
+        editSrcCB.setValue("Source");
+        editTargetCB.setValue("Target");
 
-
-        // Add a listener to update the translations when the source language is changed
-        // SourceCB.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> updateTranslations());
         language.loadAllHashmaps();
-
 
         if(hashMapName!=null) {
             SourceCB.setItems(FXCollections.observableArrayList(hashMapName));
         }
-
         //SourceCB.getItems().setAll(hashMapName);
 
     }

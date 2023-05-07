@@ -3,12 +3,12 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Language {
-
-
     private String srcLang;
-    //  private String trgLang;
     private Map<String, List<String>> hashMap;
     private HashMap<String, ArrayList<String>> dictionary;
 
@@ -57,7 +57,6 @@ public class Language {
 
     //
 
-
     private Map<String, String> sourceLanguages;
 
     public Map<String, HashMap<String, List<String>>> getHashmapNames() {
@@ -70,7 +69,6 @@ public class Language {
 
     private String trgLang;
     private String sourceLang;
-
 
     public String getSourceLang() {
         return sourceLang;
@@ -103,7 +101,7 @@ public class Language {
 
         hashMapCollection = new HashMap<>();
 
-        //
+        //Add all language hashmaps to hashMapCollection by using their source language as keys
         hashMapCollection.put("English", EnglishFrench);
         hashMapCollection.put("English", EnglishGerman);
         hashMapCollection.put("English", EnglishGreek);
@@ -149,6 +147,7 @@ public class Language {
         //
 
         hashmapNames = new HashMap<>();
+        //Add all language hashmaps to hashmapNames by using their filenames as keys
 
         hashmapNames.put("EnglishFrench", EnglishFrench);
         hashmapNames.put("EnglishGerman", EnglishGerman);
@@ -193,56 +192,12 @@ public class Language {
         hashmapNames.put("TurkishEnglish",TurkishEnglish);
 
         // Load the HashMaps with data from text files and set source languages
-
-        loadHashMap(EnglishFrench, "EnglishFrench.txt");
-        loadHashMap(EnglishGerman, "EnglishGerman.txt");
-        loadHashMap(EnglishGreek, "EnglishGreek.txt");
-        loadHashMap(EnglishItalian, "EnglishItalian.txt");
-        loadHashMap(EnglishSwedish, "EnglishSwedish.txt");
-        loadHashMap(EnglishTurkish, "EnglishTurkish.txt");
-
-        loadHashMap(FrenchEnglish, "FrenchEnglish.txt");
-        loadHashMap(FrenchGerman, "FrenchGerman.txt");
-        loadHashMap(FrenchGreek, "FrenchGreek.txt");
-        loadHashMap(FrenchItalian, "FrenchItalian.txt");
-        loadHashMap(FrenchSwedish, "FrenchSwedish.txt");
-        loadHashMap(FrenchTurkish, "FrenchTurkish.txt");
-
-        loadHashMap(GermanEnglish, "GermanEnglish.txt");
-        loadHashMap(GermanFrench, "GermanFrench.txt");
-        loadHashMap(GermanGreek, "GermanGreek.txt");
-        loadHashMap(GermanItalian, "GermanItalian.txt");
-        loadHashMap(GermanSwedish, "GermanSwedish.txt");
-        loadHashMap(GermanTurkish, "GermanTurkish.txt");
-
-        loadHashMap(GreekFrench, "GreekFrench.txt");
-        loadHashMap(GreekItalian, "GreekItalian.txt");
-        loadHashMap(GreekSwedish, "GreekSwedish.txt");
-        loadHashMap(GreekEnglish, "GreekEnglish.txt");
-
-        loadHashMap(ItalianGerman, "ItalianGerman.txt");
-        loadHashMap(ItalianGreek, "ItalianGreek.txt");
-        loadHashMap(ItalianSwedish, "ItalianSwedish.txt");
-        loadHashMap(ItalianTurkish, "ItalianTurkish.txt");
-        loadHashMap(ItalianEnglish, "ItalianEnglish.txt");
-
-        loadHashMap(SwedishFrench, "SwedishFrench.txt");
-        loadHashMap(SwedishGerman, "SwedishGerman.txt");
-        loadHashMap(SwedishGreek, "SwedishGreek.txt");
-        loadHashMap(SwedishItalian, "SwedishItalian.txt");
-        loadHashMap(SwedishTurkish, "SwedishTurkish.txt");
-        loadHashMap(SwedishEnglish, "SwedishEnglish.txt");
-
-        loadHashMap(TurkishGerman, "TurkishGerman.txt");
-        loadHashMap(TurkishEnglish, "TurkishEnglish.txt");
+        loadHashmapsInParallel();
     }
 
     public void loadHashMap(Map<String, List<String>> hashMap, String fileName) {
         InputStream filePath = getClass().getResourceAsStream(fileName);
         loadWordsFromFile(hashMap, filePath, StandardCharsets.UTF_8);
-
-        // Add the source language to the sourceLanguages map
-        // sourceLanguages.put(fileName.replace(".txt", ""), sourceLanguage);
 
     }
 
@@ -262,12 +217,6 @@ public class Language {
     public void setHashMap(Map<String, List<String>> hashMap) {
         this.hashMap = hashMap;
     }
-
-   /* public Language(String trgLang) {
-        this.trgLang = trgLang;
-    }
-
-    */
 
     public String getSrcLang() {
         return srcLang;
@@ -289,7 +238,6 @@ public class Language {
         // System.out.println("loadWordsFromFile");
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePath, charset))) {
-
 
             String line;
             String currentWord = null;
@@ -335,7 +283,6 @@ public class Language {
 
             */
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -345,23 +292,6 @@ public class Language {
         return sourceLanguages.get(languagePair);
     }
 
-    /*public List<String> getSourceLanguagesForWord(String searchWord) {
-        List<String> sourceLanguages = new ArrayList<>();
-
-        for (Map.Entry<String, Map<String, List<String>>> entry : hashMap.entrySet()) {
-            String hashMapName = entry.getKey();
-            Map<String, List<String>> innerDictionary = entry.getValue();
-
-            if (innerDictionary.containsKey(searchWord)) {
-                sourceLanguages.add(hashMapName);
-            }
-        }
-
-        return sourceLanguages;
-    }
-}
-
-     */
 
     public static List<String> getHashMapName(HashMap<String, HashMap<String, List<String>>> hashMapCollection, String searchWord) {
         if (hashMapCollection == null) {
@@ -386,5 +316,63 @@ public class Language {
         }
     }
 
+    public void loadHashmapsInParallel() {
+        ExecutorService executor = Executors.newFixedThreadPool(35);
+
+        executor.submit(() -> loadHashMap(EnglishFrench, "EnglishFrench.txt"));
+        executor.submit(() -> loadHashMap(EnglishGerman, "EnglishGerman.txt"));
+        executor.submit(() -> loadHashMap(EnglishGreek, "EnglishGreek.txt"));
+        executor.submit(() -> loadHashMap(EnglishItalian, "EnglishItalian.txt"));
+        executor.submit(() -> loadHashMap(EnglishSwedish, "EnglishSwedish.txt"));
+        executor.submit(() -> loadHashMap(EnglishTurkish, "EnglishTurkish.txt"));
+
+        executor.submit(() -> loadHashMap(FrenchEnglish, "FrenchEnglish.txt"));
+        executor.submit(() -> loadHashMap(FrenchGerman, "FrenchGerman.txt"));
+        executor.submit(() -> loadHashMap(FrenchGreek, "FrenchGreek.txt"));
+        executor.submit(() -> loadHashMap(FrenchItalian, "FrenchItalian.txt"));
+        executor.submit(() -> loadHashMap(FrenchSwedish, "FrenchSwedish.txt"));
+        executor.submit(() -> loadHashMap(FrenchTurkish, "FrenchTurkish.txt"));
+
+        executor.submit(() -> loadHashMap(GermanEnglish, "GermanEnglish.txt"));
+        executor.submit(() -> loadHashMap(GermanFrench, "GermanFrench.txt"));
+        executor.submit(() -> loadHashMap(GermanGreek, "GermanGreek.txt"));
+        executor.submit(() -> loadHashMap(GermanItalian, "GermanItalian.txt"));
+        executor.submit(() -> loadHashMap(GermanSwedish, "GermanSwedish.txt"));
+        executor.submit(() -> loadHashMap(GermanTurkish, "GermanTurkish.txt"));
+
+        executor.submit(() -> loadHashMap(GreekFrench, "GreekFrench.txt"));
+        executor.submit(() -> loadHashMap(GreekItalian, "GreekItalian.txt"));
+        executor.submit(() -> loadHashMap(GreekSwedish, "GreekSwedish.txt"));
+        executor.submit(() -> loadHashMap(GreekEnglish, "GreekEnglish.txt"));
+
+        executor.submit(() -> loadHashMap(ItalianGerman, "ItalianGerman.txt"));
+        executor.submit(() -> loadHashMap(ItalianGreek, "ItalianGreek.txt"));
+        executor.submit(() -> loadHashMap(ItalianSwedish, "ItalianSwedish.txt"));
+        executor.submit(() -> loadHashMap(ItalianTurkish, "ItalianTurkish.txt"));
+        executor.submit(() -> loadHashMap(ItalianEnglish, "ItalianEnglish.txt"));
+
+        executor.submit(() -> loadHashMap(SwedishFrench, "SwedishFrench.txt"));
+        executor.submit(() -> loadHashMap(SwedishGerman, "SwedishGerman.txt"));
+        executor.submit(() -> loadHashMap(SwedishGreek, "SwedishGreek.txt"));
+        executor.submit(() -> loadHashMap(SwedishItalian, "SwedishItalian.txt"));
+        executor.submit(() -> loadHashMap(SwedishTurkish, "SwedishTurkish.txt"));
+        executor.submit(() -> loadHashMap(SwedishEnglish, "SwedishEnglish.txt"));
+
+        executor.submit(() -> loadHashMap(TurkishGerman, "TurkishGerman.txt"));
+        executor.submit(() -> loadHashMap(TurkishEnglish, "TurkishEnglish.txt"));
+
+        executor.shutdown();
+
+        try {
+            // Wait for all tasks to complete before continuing
+            if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+                System.out.println("Timeout occurred while loading hashmaps");
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+            e.printStackTrace();
+        }
+    }
 
 }
