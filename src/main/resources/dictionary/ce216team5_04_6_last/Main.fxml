@@ -17,7 +17,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="767.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
+<VBox alignment="CENTER" prefHeight="767.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
    <children>
       <VBox alignment="CENTER" prefHeight="568.0" prefWidth="690.0" VBox.vgrow="ALWAYS">
          <children>
@@ -62,7 +62,7 @@
                                           <Insets left="3.0" />
                                        </padding>
                                     </TextField>
-                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" text="Get Synonyms" translateX="197.0" translateY="19.0" />
+                                    <Button mnemonicParsing="false" onAction="#findSynonyms" prefHeight="26.0" prefWidth="108.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" text="Get Synonyms" translateX="197.0" translateY="19.0" />
                                     <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search2" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" text="Search" translateX="88.0" translateY="-27.0" />
                                  </children>
                               </HBox>
@@ -85,8 +85,8 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="863.0" prefWidth="1048.0" style="-fx-background-color: #FEFCF3;" AnchorPane.bottomAnchor="-61.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-46.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <ChoiceBox fx:id="addTargetCB" prefHeight="34.0" prefWidth="184.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="143.0" translateY="-174.0" />
-                                    <ChoiceBox fx:id="addSourceCB" prefHeight="34.0" prefWidth="184.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="312.0" translateY="-176.0" />
+                                    <ChoiceBox fx:id="addSourceCB" prefHeight="34.0" prefWidth="184.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="143.0" translateY="-174.0" />
+                                    <ChoiceBox fx:id="addTargetCB" prefHeight="34.0" prefWidth="184.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="312.0" translateY="-176.0" />
                                     <Button fx:id="add" mnemonicParsing="false" onAction="#addWord" style="-fx-background-color: #F0DBDB;" text="add" translateX="388.0" translateY="-44.0" />
                                     <TextField fx:id="addSourceTxt" prefHeight="50.0" prefWidth="260.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="-298.0" translateY="-42.0" />
                                     <TextField fx:id="addTranslationTxt" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" translateX="-198.0" translateY="-43.0" />

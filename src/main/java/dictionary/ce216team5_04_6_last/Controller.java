@@ -152,8 +152,8 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-        String newWord = wordTxtEdit.getText();
-        String newTranslation = OldTranslationTxtEdit.getText();
+        String newWord = addSourceTxt.getText();
+        String newTranslation = addTranslationTxt.getText();
 
         if (!language.getHashmapNames().get(hashmapAdd).containsKey(newWord)) {
             List<String> translations = new ArrayList<>();
