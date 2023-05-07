@@ -106,7 +106,7 @@ public class Controller implements Initializable {
         TabPane.getSelectionModel().select(addPane);
     }
 
-    public void addWord() {
+    public void addWord(){
         String sourceLangAdd = (String) addSourceCB.getValue();
         String targetLangAdd = (String) addTargetCB.getValue();
         String hashmapAdd=sourceLangAdd+targetLangAdd;
@@ -114,8 +114,7 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-delivery\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
-        String lastFilePath = path + filePath;
+        String lastFilePath = getClass().getResource(filePath).getPath();
 
 
         try (InputStream inputStream = new FileInputStream(lastFilePath)) {
@@ -124,29 +123,39 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
+        String newWord = addSourceTxt.getText();
+        String newTranslation = addTranslationTxt.getText();
 
-        if (dictionary.containsKey(addSourceTxt.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("The word already exists in the dictionary");
-            alert.showAndWait();
-        } else {
-            try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(lastFilePath, true), StandardCharsets.UTF_8);
-                 BufferedWriter bw = new BufferedWriter(osw)) {
-                bw.write(addSourceTxt.getText() + "// \n");
-                bw.write(addTranslationTxt.getText() + "\n");
-                bw.newLine();
-                bw.flush();
+
+
+        if (!language.getHashmapNames().get(hashmapAdd).containsKey(newWord)) {
+            List<String> translations = new ArrayList<>();
+            translations.add(newTranslation);
+            language.getHashmapNames().get(hashmapAdd).put(newWord, translations);
+            // Write the updated hash map to the file
+            try {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(lastFilePath), StandardCharsets.UTF_8));
+
+                for (Map.Entry<String, List<String>> entry : language.getHashmapNames().get(hashmapAdd).entrySet()) {
+                    writer.write(entry.getKey() + "//" + "\n");
+                    for (String element : entry.getValue()) {
+                        writer.write(element + "\n");
+                    }
+
+                }
+
+                writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            List<String> translations = new ArrayList<>();
-            translations.add(addTranslationTxt.getText());
-            dictionary.put(addSourceTxt.getText(),translations);
-            language.getHashmapNames().remove(hashmapAdd);
-            language.getHashmapNames().put(hashmapAdd,dictionary);
-            System.out.println("ADDED");
+            System.out.println("Word added.");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("The word was not found in the dictionary!");
+            alert.showAndWait();
         }
     }
     public void addTranslation() {
@@ -157,9 +166,7 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-delivery\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
-        String lastFilePath = path + filePath;
-
+        String lastFilePath = getClass().getResource(filePath).getPath();
 
         try (InputStream inputStream = new FileInputStream(lastFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
@@ -210,9 +217,7 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-delivery\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
-        String lastFilePath = path + filePath;
-
+        String lastFilePath = getClass().getResource(filePath).getPath();
 
         try (InputStream inputStream = new FileInputStream(lastFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
@@ -524,9 +529,7 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-delivery\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
-
-        String lastFilePath = path + filePath;
+        String lastFilePath = getClass().getResource(filePath).getPath();
 
 
         try (InputStream inputStream = new FileInputStream(lastFilePath)) {
@@ -585,9 +588,7 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-delivery\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
-        String lastFilePath = path + filePath;
-
+        String lastFilePath = getClass().getResource(filePath).getPath();
 
         try (InputStream inputStream = new FileInputStream(lastFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
@@ -642,9 +643,7 @@ public class Controller implements Initializable {
 
         String srcTxt = ".txt";
         String filePath = sourceLangAdd + targetLangAdd + srcTxt;
-        String path = "C:\\Users\\gokce\\OneDrive\\Belgeler\\GitHub\\CE216-Team5-delivery\\CE216-Team5\\src\\main\\resources\\dictionary\\ce216team5_04_6_last\\";
-        String lastFilePath = path + filePath;
-
+        String lastFilePath = getClass().getResource(filePath).getPath();
 
         try (InputStream inputStream = new FileInputStream(lastFilePath)) {
             Language.loadWordsFromFile(dictionary, inputStream, StandardCharsets.UTF_8);
