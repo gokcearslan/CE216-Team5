@@ -10,99 +10,142 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="589.0" prefWidth="742.0" style="-fx-background-color: #c6e2e9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
-    <children>
-      <TabPane fx:id="TabPane" layoutY="-1.0" prefHeight="597.0" prefWidth="751.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab fx:id="searchPane" text="search">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" onMouseMoved="#setBox" prefHeight="467.0" prefWidth="613.0">
-                     <children>
-                            <ChoiceBox fx:id="SourceCB" layoutX="88.0" layoutY="83.0" onMouseClicked="#setSourceBoxes" prefHeight="28.0" prefWidth="158.0" />
-                            <ChoiceBox fx:id="TargetCB" layoutX="480.0" layoutY="76.0" prefHeight="28.0" prefWidth="157.0" />
-                            <TextField fx:id="searchBox" layoutX="148.0" layoutY="173.0" prefHeight="89.0" prefWidth="342.0">
-                                <padding>
-                                    <Insets left="3.0" />
-                                </padding>
-                            </TextField>
-                            <Button layoutX="517.0" layoutY="205.0" mnemonicParsing="false" onAction="#search2" prefHeight="25.0" prefWidth="111.0" text="Search" />
-                            <TableView fx:id="sourceLangTable" layoutX="35.0" layoutY="284.0" prefHeight="148.0" prefWidth="636.0">
-                                <columns>
-                                    <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
-                                </columns>
-                            </TableView>
-                          <Label layoutX="268.0" layoutY="14.0" prefHeight="66.0" prefWidth="169.0" text="DICTIONARY">
-                              <font>
-                                  <Font name="Bookshelf Symbol 7" size="24.0" />
-                              </font>
-                              <textFill>
-                                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                                      <stops>
-                                          <Stop>
-                                              <color>
-                                                  <Color />
-                                              </color>
-                                          </Stop>
-                                          <Stop offset="1.0">
-                                              <color>
-                                                  <Color red="0.2199999988079071" green="0.04179999977350235" blue="0.04179999977350235" />
-                                              </color>
-                                          </Stop>
-                                      </stops>
-                                  </RadialGradient>
-                              </textFill>
-                          </Label>
-                        <Button layoutX="491.0" layoutY="467.0" mnemonicParsing="false" onAction="#goToAddPane" text="Add" />
-                        <Button layoutX="559.0" layoutY="467.0" mnemonicParsing="false" onAction="#goToEditPane" text="Edit" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab fx:id="addPane" text="add">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="613.0">
-                     <children>
-                        <TextField fx:id="addSourceTxt" layoutX="73.0" layoutY="109.0" prefHeight="25.0" prefWidth="140.0" />
-                        <TextField fx:id="addTranslationTxt" layoutX="386.0" layoutY="109.0" />
-                        <ChoiceBox fx:id="addSourceCB" layoutX="55.0" layoutY="68.0" prefWidth="150.0" />
-                        <ChoiceBox fx:id="addTargetCB" layoutX="386.0" layoutY="56.0" prefWidth="150.0" />
-                        <Button fx:id="add" layoutX="564.0" layoutY="142.0" mnemonicParsing="false" onAction="#addWord" text="add" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-            <Tab fx:id="editPane" text="edit">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextField fx:id="wordTxtEdit" layoutX="269.0" layoutY="58.0" prefHeight="10.0" prefWidth="129.0" />
-                        <Label layoutX="190.0" layoutY="62.0" prefHeight="17.0" prefWidth="59.0" text="word" />
-                        <Label layoutX="182.0" layoutY="99.0" prefHeight="62.0" prefWidth="57.0" text="new word" />
-                        <Button layoutX="424.0" layoutY="117.0" mnemonicParsing="false" onAction="#editWord" prefHeight="25.0" prefWidth="57.0" text="edit" />
-                        <TextField fx:id="newWordTxtEdit" layoutX="269.0" layoutY="117.0" prefHeight="10.0" prefWidth="129.0" />
-                        <Button layoutX="424.0" layoutY="187.0" mnemonicParsing="false" onAction="#addTranslation" text="add Translation" />
-                        <Button layoutX="428.0" layoutY="58.0" mnemonicParsing="false" onAction="#deleteWord" text="delete" />
-                        <Label />
-                        <Button layoutX="540.0" layoutY="187.0" mnemonicParsing="false" onAction="#deleteTranslation" text="delete" />
-                        <TextField fx:id="OldTranslationTxtEdit" layoutX="282.0" layoutY="187.0" prefHeight="25.0" prefWidth="75.0" />
-                        <Label layoutX="190.0" layoutY="191.0" prefHeight="17.0" prefWidth="59.0" text="translation" />
-                        <Label layoutX="225.0" layoutY="249.0" prefHeight="25.0" prefWidth="27.0" text="new " />
-                        <Button layoutX="378.0" layoutY="249.0" mnemonicParsing="false" onAction="#editTranslation" prefHeight="25.0" prefWidth="57.0" text="edit" />
-                        <TextField fx:id="NewTranslationEditTxt" layoutX="282.0" layoutY="249.0" prefHeight="25.0" prefWidth="75.0" />
-                        <ChoiceBox fx:id="editSrcCB" layoutX="164.0" layoutY="17.0" prefWidth="150.0" />
-                        <ChoiceBox fx:id="editTargetCB" layoutX="378.0" layoutY="17.0" prefWidth="150.0" />
-                        <Button layoutX="490.0" layoutY="58.0" mnemonicParsing="false" onAction="#addWord" prefHeight="26.0" prefWidth="75.0" text="add" />
-                        <Label layoutX="197.0" layoutY="265.0" text="translation" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-    </children>
-</AnchorPane>
+<VBox alignment="CENTER" prefHeight="767.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
+   <children>
+      <VBox alignment="CENTER" prefHeight="568.0" prefWidth="690.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TabPane fx:id="TabPane" prefHeight="696.0" prefWidth="690.0" style="-fx-background-color: #FEFCF3;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+               <tabs>
+                  <Tab fx:id="searchPane" text="search">
+                     <content>
+                        <AnchorPane onMouseMoved="#setBox" prefHeight="614.0" prefWidth="1004.0" style="-fx-background-color: #FEFCF3;">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="226.0" prefWidth="1009.0" AnchorPane.bottomAnchor="576.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label prefHeight="62.0" prefWidth="140.0" text="DICTIONARY" translateX="166.0" translateY="-23.0">
+                                       <font>
+                                          <Font name="Bookshelf Symbol 7" size="24.0" />
+                                       </font>
+                                       <textFill>
+                                          <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                             <stops>
+                                                <Stop>
+                                                   <color>
+                                                      <Color />
+                                                   </color>
+                                                </Stop>
+                                                <Stop offset="1.0">
+                                                   <color>
+                                                      <Color red="0.2199999988079071" green="0.04179999977350235" blue="0.04179999977350235" />
+                                                   </color>
+                                                </Stop>
+                                             </stops>
+                                          </RadialGradient>
+                                       </textFill>
+                                    </Label>
+                                    <ChoiceBox fx:id="TargetCB" prefHeight="28.0" prefWidth="157.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" translateX="243.0" translateY="39.0" HBox.hgrow="ALWAYS" />
+                                    <ChoiceBox fx:id="SourceCB" onMouseClicked="#setSourceBoxes" prefHeight="28.0" prefWidth="158.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" translateX="-326.0" translateY="39.0" />
+                                    <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="40.0" style="-fx-background-color: #F0DBDB;" translateX="187.0" translateY="-55.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutY="236.0" prefHeight="230.0" prefWidth="1014.0" AnchorPane.bottomAnchor="336.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="236.0">
+                                 <children>
+                                    <TextField fx:id="searchBox" prefHeight="90.0" prefWidth="423.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="111.0">
+                                       <padding>
+                                          <Insets left="3.0" />
+                                       </padding>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" text="Get Synonyms" translateX="197.0" translateY="19.0" />
+                                    <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search2" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" text="Search" translateX="88.0" translateY="-27.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="-3.0" layoutY="435.0" prefHeight="352.0" prefWidth="1009.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="435.0">
+                                 <children>
+                                    <TableView fx:id="sourceLangTable" prefHeight="364.0" prefWidth="670.0" style="-fx-background-color: #F0DBDB;" translateX="5.0">
+                                       <columns>
+                                          <TableColumn fx:id="Translation" prefWidth="669.6000007629394" text="Translation" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="addPane" text="add">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="187.0" prefWidth="613.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="863.0" prefWidth="1048.0" style="-fx-background-color: #FEFCF3;" AnchorPane.bottomAnchor="-61.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-46.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <ChoiceBox fx:id="addTargetCB" prefHeight="34.0" prefWidth="184.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="143.0" translateY="-174.0" />
+                                    <ChoiceBox fx:id="addSourceCB" prefHeight="34.0" prefWidth="184.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="312.0" translateY="-176.0" />
+                                    <Button fx:id="add" mnemonicParsing="false" onAction="#addWord" style="-fx-background-color: #F0DBDB;" text="add" translateX="388.0" translateY="-44.0" />
+                                    <TextField fx:id="addSourceTxt" prefHeight="50.0" prefWidth="260.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" translateX="-298.0" translateY="-42.0" />
+                                    <TextField fx:id="addTranslationTxt" prefHeight="50.0" prefWidth="260.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" translateX="-198.0" translateY="-43.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="226.0" prefWidth="956.0" AnchorPane.bottomAnchor="576.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="46.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label prefHeight="119.0" prefWidth="514.0" text="Please select a source and target language to add a new word." translateX="17.0" translateY="21.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="editPane" text="edit">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FEFCF3;">
+                           <children>
+                              <HBox maxHeight="614.0" maxWidth="1004.0" minHeight="614.0" minWidth="1004.0" prefHeight="242.0" prefWidth="1004.0" AnchorPane.bottomAnchor="19.400000000000034" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label prefHeight="34.0" prefWidth="38.0" translateX="229.0" translateY="73.0" />
+                                    <Label prefHeight="55.0" prefWidth="85.0" translateX="186.0" translateY="203.0" />
+                                    <TextField fx:id="wordTxtEdit" prefHeight="26.0" prefWidth="173.0" promptText="WORD" style="-fx-background-radius: 100;" translateX="266.0" translateY="81.0" />
+                                    <Button mnemonicParsing="false" onAction="#deleteWord" prefHeight="26.0" prefWidth="75.0" text="delete" translateX="327.0" translateY="81.0" />
+                                    <ChoiceBox fx:id="editSrcCB" prefWidth="150.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 10;" translateX="-147.0" translateY="26.0" />
+                                    <ChoiceBox fx:id="editTargetCB" prefWidth="150.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 10;" translateX="58.0" translateY="25.0" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="1.0" layoutY="249.0" prefHeight="136.0" prefWidth="1002.0" AnchorPane.bottomAnchor="417.0" AnchorPane.topAnchor="249.0">
+                                 <children>
+                                    <Label prefHeight="18.0" prefWidth="363.0" text="To add this to word to the dictionary add a translation" translateX="74.0" translateY="2.0" />
+                                    <Button mnemonicParsing="false" onAction="#addTranslation" prefHeight="26.0" prefWidth="82.0" text="add" translateX="-108.0" translateY="51.0" />
+                                    <TextField fx:id="OldTranslationTxtEdit" prefHeight="26.0" prefWidth="175.0" promptText="TRANSLATION" style="-fx-background-radius: 100;" translateX="-351.0" translateY="51.0" />
+                                    <TextField fx:id="OldTranslationTxtEdit1" prefHeight="26.0" prefWidth="175.0" promptText="TRANSLATION" style="-fx-background-radius: 100;" translateX="15.0" translateY="53.0" />
+                                    <Button mnemonicParsing="false" onAction="#deleteTranslation" prefHeight="26.0" prefWidth="111.0" text="delete" translateX="31.0" translateY="54.0" />
+                                    <Label prefHeight="18.0" prefWidth="224.0" text="To delete a translation of the word" translateX="-222.0" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="-11.0" layoutY="451.0" prefHeight="353.0" prefWidth="1014.0">
+                                 <children>
+                                    <Label prefHeight="18.0" prefWidth="305.0" text="To change the word with another one" translateX="69.0" translateY="4.0" />
+                                    <TextField fx:id="newWordTxtEdit" prefHeight="26.0" prefWidth="162.0" promptText="NEW WORD" style="-fx-background-radius: 100;" translateX="-242.0" translateY="51.0" />
+                                    <TextField fx:id="OldTranslationTxtEdit2" prefHeight="26.0" prefWidth="175.0" promptText="TRANSLATION" style="-fx-background-radius: 100;" translateX="119.0" translateY="50.0" />
+                                    <TextField fx:id="NewTranslationEditTxt" prefHeight="26.0" prefWidth="165.0" promptText="NEW TRANSLATION" style="-fx-background-radius: 100;" translateX="-44.0" translateY="97.0" />
+                                    <Label prefHeight="18.0" prefWidth="215.0" text="To change the translation" translateX="-195.0" />
+                                    <Button mnemonicParsing="false" onAction="#editTranslation" prefHeight="26.0" prefWidth="64.0" text="edit" translateX="-195.0" translateY="49.0" />
+                                 </children>
+                              </HBox>
+                              <Button mnemonicParsing="false" onAction="#editWord" prefHeight="26.0" prefWidth="64.0" text="edit" translateX="240.0" translateY="502.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</VBox>

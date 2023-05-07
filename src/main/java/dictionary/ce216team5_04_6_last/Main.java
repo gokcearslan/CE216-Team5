@@ -19,14 +19,6 @@ public class Main extends Application {
         primaryStage.setMaxHeight(800);
 
         primaryStage.setResizable(true);
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double centerX = screenBounds.getMinX() + (screenBounds.getWidth() - primaryStage.getMaxWidth()) / 2;
-        double centerY = screenBounds.getMinY() + (screenBounds.getHeight() - primaryStage.getMaxHeight()) / 2;
-        primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> primaryStage.centerOnScreen());
-        primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> primaryStage.centerOnScreen());
-        primaryStage.setX(centerX);
-        primaryStage.setY(centerY);
-
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

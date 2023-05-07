@@ -5,12 +5,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
+<AnchorPane prefHeight="491.0" prefWidth="683.0" style="-fx-background-color: #FEFCF3;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dictionary.ce216team5_04_6_last.Controller">
     <children>
-        <TextField fx:id="firstBox" layoutX="226.0" layoutY="84.0" />
-        <Label layoutX="105.0" layoutY="88.0" text="ENTER TO SEARCH: " />
-        <Button layoutX="401.0" layoutY="84.0" mnemonicParsing="false" onAction="#search" text="Button" />
+        <TextField fx:id="firstBox" layoutX="193.0" layoutY="189.0" prefHeight="48.0" prefWidth="285.0" style="-fx-background-color: #F0DBDB; -fx-background-radius: 100;" />
+        <Label layoutX="66.0" layoutY="202.0" prefHeight="18.0" prefWidth="110.0" text="ENTER A WORD :" />
+        <Button layoutX="488.0" layoutY="198.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="110.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" text="Search" />
+      <Button fx:id="GoToAddEditButton" layoutX="450.0" layoutY="432.0" mnemonicParsing="false" onAction="#switchPanes" prefHeight="26.0" prefWidth="194.0" style="-fx-background-radius: 100; -fx-background-color: #F0DBDB;" text="Go to Add-Edit" />
     </children>
 </AnchorPane>
-

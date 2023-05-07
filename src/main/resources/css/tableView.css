@@ -1,0 +1,85 @@
+.table-view {
+   -fx-background-color: linear-gradient(to bottom, #6A2C70, #393E46)
+}
+
+/* Hide the table header and make the table blue */
+.table-view .column-header {
+    -fx-background-color: #9384D1;
+    -fx-background-insets: 0px;
+    -fx-padding: 0px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: #9384D1;
+    -fx-border-width: 0px;
+    -fx-border-style: hidden;
+}
+
+/* Set the background color of odd rows to a darker shade of blue */
+.table-row-cell:odd {
+    -fx-background-color: #DBA39A;
+}
+
+/* Set the background color of even rows to a lighter shade of blue */
+.table-row-cell:even {
+    -fx-background-color: #F0DBDB;
+}
+
+
+.table-row-cell:selected {
+    -fx-background-color: #BCCEF8;
+    -fx-background-insets: 0px;
+    -fx-padding: 0px;
+    -fx-text-fill: white;
+}
+
+
+.table-column, .table-cell {
+    -fx-alignment: center-left;
+    -fx-font-size: 14px;
+}
+
+
+.table-view .scroll-bar:vertical, .table-view .scroll-bar:horizontal {
+    -fx-background-color: #E0E0E0;
+    -fx-padding: 0px;
+}
+
+
+.table-view .scroll-bar:vertical .increment-button,
+.table-view .scroll-bar:vertical .decrement-button,
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #3E54AC;
+    -fx-background-radius: 0px;
+    -fx-padding: 0px;
+}
+
+
+.table-view .scroll-bar:vertical .increment-button:hover,
+.table-view .scroll-bar:vertical .decrement-button:hover,
+.table-view .scroll-bar:horizontal .increment-button:hover,
+.table-view .scroll-bar:horizontal .decrement-button:hover {
+    -fx-background-color: #1E3A8A;
+}
+
+
+.table-view .scroll-bar:vertical .thumb,
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #3E54AC;
+    -fx-background-radius: 0px;
+}
+
+
+.table-view .scroll-bar:vertical .thumb:hover,
+.table-view .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #1E3A8A;
+}
+
+
+.table-view .scroll-bar:vertical .track,
+.table-view .scroll-bar:horizontal .track {
+    -fx-background-color: #E0E0E0;
+    -fx-background-radius: 0px;
+    -fx-padding: 0px;
+}

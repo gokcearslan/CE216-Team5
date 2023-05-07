@@ -1,0 +1,32 @@
+.button {
+ -fx-background-color: linear-gradient(to bottom, #F5EBE0, #F0DBDB);
+  -fx-background-radius: 50px;
+  -fx-border-radius: 50px;
+  -fx-border-width: 1px;
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-text-fill: white;
+  -fx-padding: 5px 10px;
+  -fx-cursor: hand;
+}
+.button:default:hover {
+  -fx-background-color: #FFDCB6;
+  -fx-text-fill: #3E54AC;
+}
+
+.button:default:pressed {
+  -fx-translate-y: 1px;
+}
+
+.button:hover {
+  -fx-background-color: #FFDCB6;
+  -fx-text-fill: #FFDCB6;
+}
+
+.button:pressed {
+  -fx-translate-y: 1px;
+}
+
+.button .text {
+  -fx-fill: white;
+}

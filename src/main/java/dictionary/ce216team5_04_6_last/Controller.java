@@ -2,6 +2,7 @@ package dictionary.ce216team5_04_6_last;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
@@ -31,6 +35,23 @@ public class Controller implements Initializable {
     private ChoiceBox SourceCB = new ChoiceBox<>();
     @FXML
     private ChoiceBox TargetCB = new ChoiceBox<>();
+    @FXML
+    private Button searchButton = new Button();
+    @FXML
+    private Button helpButton = new Button();
+    @FXML
+    private Button addButton = new Button();
+    @FXML
+    private Button editButton = new Button();
+    @FXML
+    private Button GoToAddEditButton = new Button();
+    @FXML
+    final Image helpImage = new Image("file:src/main/resources/Images/help.png");
+    ImageView imageView = new ImageView(helpImage);
+    @FXML
+    final Image addImage = new Image("file:src/main/resources/Images/add.png");
+    ImageView addView = new ImageView(addImage);
+
 
     @FXML
     private ChoiceBox addTargetCB = new ChoiceBox<>();
@@ -40,6 +61,10 @@ public class Controller implements Initializable {
     private TextField addTranslationTxt;
     @FXML
     private TextField OldTranslationTxtEdit;
+    @FXML
+    private TextField OldTranslationTxtEdit1;
+    @FXML
+    private TextField OldTranslationTxtEdit2;
     @FXML
     private TextField NewTranslationEditTxt;
 
@@ -76,7 +101,7 @@ public class Controller implements Initializable {
 
 
     @FXML
-    private TabPane TabPane;
+    private TabPane TabPane = new TabPane();
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -127,8 +152,8 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-        String newWord = addSourceTxt.getText();
-        String newTranslation = addTranslationTxt.getText();
+        String newWord = wordTxtEdit.getText();
+        String newTranslation = OldTranslationTxtEdit.getText();
 
         if (!language.getHashmapNames().get(hashmapAdd).containsKey(newWord)) {
             List<String> translations = new ArrayList<>();
@@ -566,7 +591,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         String currentWord = wordTxtEdit.getText();
-        String translation = OldTranslationTxtEdit.getText();
+        String translation = OldTranslationTxtEdit2.getText();
         String newTranslation = NewTranslationEditTxt.getText();
 
         if (language.getHashmapNames().get(hashmapAdd).containsKey(currentWord)) {
@@ -607,7 +632,6 @@ public class Controller implements Initializable {
         }
 
     }
-
     public void editWord() {
         String sourceLangAdd = (String) editSrcCB.getValue();
         String targetLangAdd = (String) editTargetCB.getValue();
@@ -669,6 +693,20 @@ public class Controller implements Initializable {
             alert.showAndWait();
         }
     }
+    public void switchPanes(ActionEvent e) throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        setActiveTab(1);
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+    public void setActiveTab(int tabIndex) {
+      TabPane.getSelectionModel().select(tabIndex);
+    }
+
 
     public void deleteTranslation(){
         String sourceLangAdd = (String) editSrcCB.getValue();
@@ -693,7 +731,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         String currentWord = wordTxtEdit.getText();
-        String translation = OldTranslationTxtEdit.getText();
+        String translation = OldTranslationTxtEdit1.getText();
 
         if (language.getHashmapNames().get(hashmapAdd).containsKey(currentWord)) {
             List<String> translations = language.getHashmapNames().get(hashmapAdd).get(currentWord);
@@ -754,6 +792,36 @@ public class Controller implements Initializable {
             SourceCB.setItems(FXCollections.observableArrayList(hashMapName));
         }
         //SourceCB.getItems().setAll(hashMapName);
+
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        helpButton.setGraphic(imageView);
+        addView.setFitWidth(30);
+        addView.setFitHeight(30);
+        GoToAddEditButton.setGraphic(addView);
+        helpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Help");
+                alert.setHeaderText("How to use the dictionary");
+                alert.setContentText("1. Select the source and target languages from the drop down menus.\n" +
+                        "2. Enter the word you want to search in the search box.\n" +
+                        "3. Click on the search button.\n" +
+                        "4. The word and its translations will be displayed in the table below.\n" +
+                        "5. To add a new word, click on the add button.\n" +
+                        "6. To edit an existing word, click on the edit button.\n" +
+                        "7. To delete an existing word, select the word and click on the delete button.\n" +
+                        "8. To get the synonym of a word write the word in the search box then, click on the synonym button.\n" +
+                        "9. To exit the application, click on the exit button.");
+
+                DialogPane dialogPane = alert.getDialogPane();
+                dialogPane.setMinHeight(Region.USE_PREF_SIZE);
+
+                alert.showAndWait();
+
+            }
+        });
 
     }
 }
